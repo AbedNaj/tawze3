@@ -29,22 +29,37 @@ class CompanyController extends Controller
      */
     public function store(Request $request)
     {
-
         $validated = $request->validate([
             'tenant_id' => 'required|string|max:255|unique:tenants,id',
             'name' => 'required|string|max:255',
         ]);
+
+
         $tenant = Tenant::create(['id' => $validated['tenant_id']]);
+
 
         $tenant->domains()->create([
             'domain' => $validated['tenant_id'] . '.' . env('APP_DOMAIN', 'tawze3.test'),
         ]);
 
 
+        tenancy()->initialize($tenant);
+
+
+        \App\Models\Tenants\User::create([
+            'name' => $validated['name'],
+            'email' => $validated['tenant_id'] . '@' . env('APP_DOMAIN', 'tawze3.test'),
+            'password' => bcrypt('password'),
+        ]);
+
+
+        tenancy()->end();
+
 
         return redirect()->route('company.index')
-            ->with('success', 'Company created successfully.');
+            ->with('success', 'تم إنشاء الشركة بنجاح، مع حساب افتراضي للمسؤول.');
     }
+
 
     /**
      * Display the specified resource.

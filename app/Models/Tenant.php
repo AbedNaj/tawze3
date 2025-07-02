@@ -16,4 +16,9 @@ class Tenant extends BaseTenant implements TenantWithDatabase
     {
         return $this->hasone(Domain::class);
     }
+
+    public function users()
+    {
+        return $this->hasMany(\App\Models\Tenants\User::class);
+    }
 }
