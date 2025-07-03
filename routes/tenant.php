@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\ProductTypeController;
 use App\Http\Middleware\RedirectIfNotAdmin;
 use Illuminate\Support\Facades\Route;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
@@ -46,6 +47,22 @@ Route::middleware([
             Route::controller(DashboardController::class)->group(function () {
 
                 Route::get('dashbaord', 'index')->name('dashboard');
+            });
+
+            Route::controller(ProductTypeController::class)->group(function () {
+
+                Route::get('product-types', 'index')->name('product-types.index');
+
+                Route::get('product-types/create', 'create')->name('product-types.create');
+
+                Route::post('product-types/create', 'store')->name('product-types.store');
+
+                Route::get('product-types/{id}/show', 'show')->name('product-types.show');
+
+                Route::patch('product-types/{id}/update', 'update')->name('product-types.update');
+
+
+                Route::delete('product-types/{id}/delete', 'destroy')->name('product-types.delete');
             });
         });
     });

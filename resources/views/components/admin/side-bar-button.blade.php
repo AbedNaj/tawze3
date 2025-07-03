@@ -7,7 +7,7 @@
               : 'group flex items-center px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 text-gray-700 hover:bg-gray-50 hover:text-gray-900 hover:-translate-x-1 hover:shadow-md';
       @endphp
 
-      <a href="{{ $href }}" {{ $attributes->merge(['class' => $class]) }}>
+      <a wire:navigate href="{{ $href }}" {{ $attributes->merge(['class' => $class]) }}>
           <div
               class="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center ml-3 group-hover:bg-gray-200 transition-colors">
               {{ $icon }}
