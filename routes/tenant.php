@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProductTypeController;
 use App\Http\Middleware\RedirectIfNotAdmin;
 use Illuminate\Support\Facades\Route;
@@ -61,8 +62,24 @@ Route::middleware([
 
                 Route::patch('product-types/{id}/update', 'update')->name('product-types.update');
 
-
                 Route::delete('product-types/{id}/delete', 'destroy')->name('product-types.delete');
+            });
+
+            Route::controller(ProductController::class)->group(function () {
+
+                Route::get('products', 'index')->name('products.index');
+
+                Route::get('products/create', 'create')->name('products.create');
+
+                Route::post('products/create', 'store')->name('products.store');
+
+                Route::get('products/{id}/show', 'show')->name('products.show');
+
+                Route::patch('products/{id}/update', 'update')->name('products.update');
+
+                Route::delete('products/{id}/delete', 'destroy')->name('products.delete');
+
+                Route::get('products/product-entry-method', 'productEntry')->name('products.product-entry-method');
             });
         });
     });

@@ -1,5 +1,4 @@
-<div x-cloak
-    class="fixed inset-y-0 right-0 z-50 w-72 bg-white/80 backdrop-blur-xl border-l border-gray-200/50 shadow-2xl transform transition-transform duration-300 ease-in-out md:translate-x-0 md:static md:inset-0"
+<div class="fixed inset-y-0 right-0 z-50 w-72 bg-white/80 backdrop-blur-xl border-l border-gray-200/50 shadow-2xl transform transition-transform duration-300 ease-in-out md:translate-x-0 md:static md:inset-0"
     :class="sidebarOpen ? 'translate-x-0' : 'translate-x-full md:translate-x-0'">
     <div x-show="sidebarOpen" x-transition:enter="transition-opacity ease-linear duration-300"
         x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
@@ -49,8 +48,8 @@
                 </x-slot>
             </x-admin.side-bar-button>
 
-            <x-admin.side-bar-dropdown label="المنتجات" :is_active="request()->routeIs('admin.product-types*') || request()->routeIs('admin.products.index*')" :icon="view('components.icons.shopping-basket')">
-                <x-admin.side-bar-sub-link href="" :is_active="request()->routeIs('products.index')">
+            <x-admin.side-bar-dropdown label="المنتجات" :is_active="request()->routeIs('admin.product-types*') || request()->routeIs('admin.product*')" :icon="view('components.icons.shopping-basket')">
+                <x-admin.side-bar-sub-link href="{{ route('admin.products.index') }}" :is_active="request()->routeIs('admin.products*')">
                     قائمة المنتجات
                 </x-admin.side-bar-sub-link>
 
