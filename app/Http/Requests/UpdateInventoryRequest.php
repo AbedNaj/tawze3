@@ -11,7 +11,7 @@ class UpdateInventoryRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,7 @@ class UpdateInventoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'min_stock_alert' => 'nullable|numeric|min:0',
         ];
     }
 }

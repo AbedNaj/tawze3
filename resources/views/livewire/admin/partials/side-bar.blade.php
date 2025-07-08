@@ -37,7 +37,7 @@
 
             <x-admin.side-bar-button :is_active="request()->routeis('admin.dashboard*')" href="{{ route('admin.dashboard') }}">
 
-                الرئيسية
+                {{ __('sidebar.admin.main') }}
                 <x-slot name="icon">
                     <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -48,15 +48,24 @@
                 </x-slot>
             </x-admin.side-bar-button>
 
-            <x-admin.side-bar-dropdown label="المنتجات" :is_active="request()->routeIs('admin.product-types*') || request()->routeIs('admin.product*')" :icon="view('components.icons.shopping-basket')">
+            <x-admin.side-bar-dropdown :label="__('sidebar.admin.inventory')" :is_active="request()->routeIs('admin.inventory*')" :icon="view('components.icons.inventory')">
+                <x-admin.side-bar-sub-link href="{{ route('admin.inventory.index') }}" :is_active="request()->routeIs('admin.inventory*')">
+                    {{ __('sidebar.admin.inventory_list') }}
+                </x-admin.side-bar-sub-link>
+
+            </x-admin.side-bar-dropdown>
+
+
+            <x-admin.side-bar-dropdown :label="__('sidebar.admin.products')" :is_active="request()->routeIs('admin.product-types*') || request()->routeIs('admin.product*')" :icon="view('components.icons.shopping-basket')">
                 <x-admin.side-bar-sub-link href="{{ route('admin.products.index') }}" :is_active="request()->routeIs('admin.products*')">
-                    قائمة المنتجات
+                    {{ __('sidebar.admin.products_list') }}
                 </x-admin.side-bar-sub-link>
 
                 <x-admin.side-bar-sub-link href="{{ route('admin.product-types.index') }}" :is_active="request()->routeIs('admin.product-types*')">
-                    أنواع المنتجات
+                    {{ __('sidebar.admin.products_type') }}
                 </x-admin.side-bar-sub-link>
             </x-admin.side-bar-dropdown>
+
 
             <div class="my-4 border-t border-gray-200"></div>
 

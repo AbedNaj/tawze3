@@ -14,16 +14,13 @@ class InventoryController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.pages.inventory.index');
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
-        //
-    }
+    public function create() {}
 
     /**
      * Store a newly created resource in storage.
@@ -38,7 +35,8 @@ class InventoryController extends Controller
      */
     public function show(Inventory $inventory)
     {
-        //
+        $inventory->load('product:name,id');
+        return view('admin.pages.inventory.show', ['inventory' => $inventory]);
     }
 
     /**
@@ -54,7 +52,19 @@ class InventoryController extends Controller
      */
     public function update(UpdateInventoryRequest $request, Inventory $inventory)
     {
-        //
+        $validated = $request->validated();
+        $inventory->fill(
+            [
+                'min_stock_alert' => $validated['min_stock_alert']
+            ]
+        );
+
+        if ($inventory->isDirty()) {
+            $inventory->save();
+
+            return back()->with('status', 'تم التعديل بنجاح');
+        }
+        return back()->with('info', 'لم يتم إجراء أي تعديل');
     }
 
     /**

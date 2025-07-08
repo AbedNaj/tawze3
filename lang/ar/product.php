@@ -17,5 +17,8 @@ return [
     'scan_please' => 'الرجاء مسح كود المنتج',
     'quantity' => 'الكمية',
     'min_stock_alert' => 'تنبيه الحد الأدنى للمخزون',
+    'no_qr_code' => 'لا يوجد QR كود',
+    'show_inventory' => 'عرض المخزون',
+    'save' => 'حفظ',
 
 ];

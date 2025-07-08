@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\InventoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProductTypeController;
 use App\Http\Middleware\RedirectIfNotAdmin;
@@ -73,13 +74,23 @@ Route::middleware([
 
                 Route::post('products/create', 'store')->name('products.store');
 
-                Route::get('products/{id}/show', 'show')->name('products.show');
+                Route::get('products/{product}/show', 'show')->name('products.show');
 
-                Route::patch('products/{id}/update', 'update')->name('products.update');
+                Route::patch('products/{product}/update', 'update')->name('products.update');
 
-                Route::delete('products/{id}/delete', 'destroy')->name('products.delete');
+                Route::delete('products/{product}/delete', 'destroy')->name('products.delete');
 
                 Route::get('products/product-entry-method', 'productEntry')->name('products.product-entry-method');
+            });
+
+
+            Route::controller(InventoryController::class)->group(function () {
+
+                Route::get('inventory', 'index')->name('inventory.index');
+
+                Route::get('inventory/{inventory}/show', 'show')->name('inventory.show');
+
+                Route::patch('inventory/{inventory}/update', 'update')->name('inventory.update');
             });
         });
     });

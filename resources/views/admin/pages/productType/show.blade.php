@@ -44,7 +44,7 @@
 
                     <div class="flex items-center gap-4">
 
-                        <x-admin.form.button>حفظ</x-admin.form.button>
+                        <x-admin.form.button>{{ __('inventory.save') }}</x-admin.form.button>
 
                         <x-admin.buttons.cancel click="editing = false"></x-admin.buttons.cancel>
 

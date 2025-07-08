@@ -61,7 +61,16 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
+        $product->load([
+            'productType:id,name',
+            'inventory:id,product_id,quantity'
+        ]);
+
+        $productTypes = ProductType::pluck('name', 'id');
+        return view('admin.pages.product.show', [
+            'product' => $product,
+            'productTypes' => $productTypes
+        ]);
     }
 
     /**
@@ -77,7 +86,21 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, Product $product)
     {
-        //
+        $validated = $request->validated();
+
+        $product->fill(
+            [
+                'name' => $validated['name'],
+                'price' => $validated['price'],
+                'product_type_id' => $validated['product_type_id'],
+            ]
+        );
+
+        if ($product->isDirty()) {
+            $product->save();
+            return back()->with('status', 'تم التعديل بنجاح');
+        }
+        return back()->with('info', 'لم يتم إجراء أي تعديل');
     }
 
     /**

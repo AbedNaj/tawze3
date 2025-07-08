@@ -5,6 +5,6 @@
     $classes .= $is_active ? ' font-semibold text-blue-600' : '';
 @endphp
 
-<a wire:navigate href="{{ $href }}" class="{{ $classes }}">
+<a x-cloak wire:navigate href="{{ $href }}" class="{{ $classes }}">
     {{ $slot }}
 </a>
