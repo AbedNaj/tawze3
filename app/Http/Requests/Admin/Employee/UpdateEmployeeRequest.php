@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Admin\Employee;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateInventoryRequest extends FormRequest
+class UpdateEmployeeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,7 +22,8 @@ class UpdateInventoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'min_stock_alert' => 'nullable|numeric|min:0',
+            'name' => 'required|string|max:255',
+            'phone' => 'nullable|string|max:20'
         ];
     }
 }

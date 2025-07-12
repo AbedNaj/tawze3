@@ -35,17 +35,10 @@
 
         <nav class="p-4 space-y-2">
 
-            <x-admin.side-bar-button :is_active="request()->routeis('admin.dashboard*')" href="{{ route('admin.dashboard') }}">
+            <x-admin.side-bar-button :icon="view('components.icons.home')" :is_active="request()->routeis('admin.dashboard*')" href="{{ route('admin.dashboard') }}">
 
                 {{ __('sidebar.admin.main') }}
-                <x-slot name="icon">
-                    <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"></path>
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M8 5a2 2 0 012-2h4a2 2 0 012 2v1H8V5z"></path>
-                    </svg>
-                </x-slot>
+
             </x-admin.side-bar-button>
 
             <x-admin.side-bar-dropdown :label="__('sidebar.admin.inventory')" :is_active="request()->routeIs('admin.inventory*')" :icon="view('components.icons.inventory')">
@@ -66,6 +59,12 @@
                 </x-admin.side-bar-sub-link>
             </x-admin.side-bar-dropdown>
 
+
+            <x-admin.side-bar-button :icon="view('components.icons.employees')" :is_active="request()->routeis('admin.employees*') || request()->routeis('admin.employeeUser*')" href="{{ route('admin.employees.index') }}">
+
+                {{ __('sidebar.admin.employees') }}
+
+            </x-admin.side-bar-button>
 
             <div class="my-4 border-t border-gray-200"></div>
 

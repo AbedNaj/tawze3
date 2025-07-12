@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\EmployeeController;
+use App\Http\Controllers\Admin\EmployeeUserController;
 use App\Http\Controllers\Admin\InventoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProductTypeController;
@@ -91,6 +93,34 @@ Route::middleware([
                 Route::get('inventory/{inventory}/show', 'show')->name('inventory.show');
 
                 Route::patch('inventory/{inventory}/update', 'update')->name('inventory.update');
+            });
+
+
+
+            Route::controller(EmployeeController::class)->group(function () {
+
+                Route::get('employees', 'index')->name('employees.index');
+
+                Route::get('employees/create', 'create')->name('employees.create');
+
+                Route::post('employees/create', 'store')->name('employees.store');
+
+                Route::get('employees/{employee}/show', 'show')->name('employees.show');
+
+                Route::patch('employees/{employee}/update', 'update')->name('employees.update');
+
+                Route::delete('employees/{employee}/delete', 'destroy')->name('employees.delete');
+            });
+
+
+            Route::controller(EmployeeUserController::class)->group(function () {
+
+
+
+                Route::get('employeeUser/{employeeUser}/show', 'show')->name('employeeUser.show');
+
+                Route::patch('employeeUser/{employeeUser}/update', 'update')->name('employeeUser.update');
+                Route::patch('employeeUser/{employeeUser}/update-password', 'updatePassword')->name('employeeUser.update-password');
             });
         });
     });

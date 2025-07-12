@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Tenants\Inventory;
-use App\Http\Requests\StoreInventoryRequest;
-use App\Http\Requests\UpdateInventoryRequest;
+use App\Http\Requests\Admin\Inventory\StoreInventoryRequest;
+use App\Http\Requests\Admin\Inventory\UpdateInventoryRequest;
 
 class InventoryController extends Controller
 {

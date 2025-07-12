@@ -1,4 +1,4 @@
-      @props(['is_active' => false, 'href' => '#', 'notificatins' => 0])
+      @props(['is_active' => false, 'href' => '#', 'notificatins' => 0, 'icon' => null])
 
       @php
 
@@ -10,7 +10,7 @@
       <a wire:navigate href="{{ $href }}" {{ $attributes->merge(['class' => $class]) }}>
           <div
               class="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center ml-3 group-hover:bg-gray-200 transition-colors">
-              {{ $icon }}
+              {!! $icon !!}
 
           </div>
           <span>{{ $slot }}</span>

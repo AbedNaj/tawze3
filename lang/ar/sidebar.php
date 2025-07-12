@@ -10,6 +10,6 @@ return [
         'products_list' => 'قائمة المنتجات',
         'inventory' => 'المخزون',
         'inventory_list' => 'قائمة المخزون',
-
+        'employees' => 'الموظفين',
     ],
 ];
