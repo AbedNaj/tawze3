@@ -2,7 +2,11 @@
 
 @section('content')
     <div x-data="{ editing: false }" class="space-y-6">
-
+        @php
+            $query = http_build_query([
+                'employee' => $employee->id,
+            ]);
+        @endphp
         <div x-show="!editing">
             <div class="bg-white p-6 rounded-lg shadow relative">
 
@@ -15,10 +19,15 @@
                             @method('DELETE')
                             <x-admin.buttons.delete />
                         </form>
-
+                        <x-admin.buttons.href
+                            href="{{ route('admin.inventory.transfer') . '?' . $query }}">{{ __('inventory.transfer') }}</x-admin.buttons.href>
                         <x-admin.buttons.href
                             href="{{ route('admin.employeeUser.show', ['employeeUser' => $employee->employee_user_id]) }}">{{ __('employee.employee_account') }}</x-admin.buttons.href>
+
+
+
                     </div>
+
                 </div>
 
 

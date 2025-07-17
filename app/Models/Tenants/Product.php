@@ -20,4 +20,9 @@ class Product extends Model
     {
         return $this->hasOne(Inventory::class);
     }
+
+    public function employeeInventories()
+    {
+        return $this->hasMany(EmployeeInventory::class);
+    }
 }

@@ -18,4 +18,9 @@ class Employee extends Model
     {
         return $this->belongsTo(EmployeeUser::class, 'employee_user_id');
     }
+
+    public function inventories()
+    {
+        return $this->hasMany(EmployeeInventory::class);
+    }
 }

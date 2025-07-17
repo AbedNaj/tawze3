@@ -11,5 +11,7 @@ return [
         'inventory' => 'المخزون',
         'inventory_list' => 'قائمة المخزون',
         'employees' => 'الموظفين',
+        'transfer_to_employee' => 'توزيع على موظف',
+        'employee_inventory_list' => 'مخزون الموظفين'
     ],
 ];

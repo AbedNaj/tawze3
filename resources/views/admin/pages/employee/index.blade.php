@@ -11,5 +11,5 @@
         ['field' => 'phone', 'label' => __('employee.phone')],
         ['field' => 'user.user_name', 'label' => __('employee.user_name')],
     ]"
-        :title="__('employee.title')" :allowSearch="false" detailsRouteName="admin.employees.show" />
+        :title="__('employee.title')" detailsRouteName="admin.employees.show" />
 @endsection

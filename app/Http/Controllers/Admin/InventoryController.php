@@ -6,6 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Models\Tenants\Inventory;
 use App\Http\Requests\Admin\Inventory\StoreInventoryRequest;
 use App\Http\Requests\Admin\Inventory\UpdateInventoryRequest;
+use App\Models\Tenants\Employee;
+use App\Models\Tenants\EmployeeInventory;
+use App\Models\Tenants\Product;
+use App\Models\Tenants\ProductType;
+use Illuminate\Http\Request;
 
 class InventoryController extends Controller
 {
@@ -35,7 +40,7 @@ class InventoryController extends Controller
      */
     public function show(Inventory $inventory)
     {
-        $inventory->load('product:name,id');
+        $inventory->load('product:name,id,product_type_id');
         return view('admin.pages.inventory.show', ['inventory' => $inventory]);
     }
 
@@ -67,11 +72,51 @@ class InventoryController extends Controller
         return back()->with('info', 'لم يتم إجراء أي تعديل');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Inventory $inventory)
+    public function restock(Request $request, Inventory $inventory)
     {
-        //
+        $validated = $request->validate([
+            'quantity' => 'numeric|required|min:0',
+        ]);
+
+        $inventory->increment('quantity', $validated['quantity']);
+        $inventory->update([
+            'last_restock_date' => now()
+        ]);
+        return back()->with('status', 'تمت إعادة التوريد بنجاح');
+    }
+    public function transfer()
+    {
+        $employees = Employee::pluck('name', 'id');
+        $productTypes = ProductType::pluck('name', 'id');
+        return view('admin.pages.inventory.transfer', [
+            'employees' => $employees,
+            'productTypes' => $productTypes
+        ]);
+    }
+
+
+    // this function is no longer in use because LiveWire component is reponsible of the transfer
+    public function transterUpdate(Request $request)
+    {
+        $validated = $request->validate(
+            [
+                'employee' => 'required|exists:employees,id',
+                'product' => 'required|exists:products,id',
+                'quantity' => 'required|numeric|min:0',
+            ]
+        );
+
+
+        $oldQuantity = EmployeeInventory::where('employee_id', '=', $validated['employee'])
+            ->where('product_id', '=', $validated['product'])
+            ->value('quantity') ?? 0;
+
+        $finalQuantity = $oldQuantity + $validated['quantity'];
+        EmployeeInventory::updateOrCreate([
+            'employee_id' =>  $validated['employee'],
+            'product_id' => $validated['product']
+        ], ['quantity' => $finalQuantity]);
+
+        return back();
     }
 }

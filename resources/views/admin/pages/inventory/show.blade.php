@@ -1,9 +1,9 @@
 @extends('admin.layout.default')
 
 @section('content')
-    <div x-data="{ editing: false }" class="space-y-6 max-w-3xl mx-auto">
+    <div x-data="{ editing: false, restock: false }" class="space-y-6 max-w-3xl mx-auto">
 
-        <div x-show="!editing" class="bg-white p-6 rounded-lg shadow-md border border-gray-100">
+        <div x-show="!editing && !restock" class="bg-white p-6 rounded-lg shadow-md border border-gray-100">
 
 
             <div class="flex items-center justify-between mb-4">
@@ -33,11 +33,16 @@
             </dl>
 
             <div class="mt-6 flex gap-4">
-                <x-admin.button href="">
+                <x-admin.buttons.default click="restock = true">
                     {{ __('inventory.restock') }}
-                </x-admin.button>
-
-                <x-admin.button href="">
+                </x-admin.buttons.default>
+                @php
+                    $query = http_build_query([
+                        'product' => $inventory->product_id,
+                        'product-type' => $inventory->product->product_type_id,
+                    ]);
+                @endphp
+                <x-admin.button href="{!! route('admin.inventory.transfer') . '?' . $query !!}">
                     {{ __('inventory.assign_to_employee') }}
                 </x-admin.button>
 
@@ -46,7 +51,7 @@
 
         </div>
 
-        <div x-show="editing" class="bg-white p-6 rounded-lg shadow-md border border-gray-100">
+        <div x-cloak x-show="editing" class="bg-white p-6 rounded-lg shadow-md border border-gray-100">
             <div class="flex items-center justify-between mb-4">
                 <h2 class="text-xl font-semibold text-gray-800">
                     {{ __('inventory.edit_the_product') }}
@@ -66,6 +71,32 @@
                     <x-admin.form.button>حفظ</x-admin.form.button>
 
                     <x-admin.buttons.cancel click="editing = false"></x-admin.buttons.cancel>
+
+
+                </div>
+            </form>
+        </div>
+
+        <div x-cloak x-show="restock" class="bg-white p-6 rounded-lg shadow-md border border-gray-100">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-xl font-semibold text-gray-800">
+                    {{ __('inventory.restock_product') }} - {{ $inventory->product->name }}
+                </h2>
+
+            </div>
+
+            <form class="space-y-2" action="{{ route('admin.inventory.restock', ['inventory' => $inventory->id]) }}"
+                method="POST">
+                @method('PATCH')
+                @csrf
+
+                <x-admin.form.input type="number" name="quantity" value="0" :label="__('inventory.product_quantity_product')" />
+
+                <div class="flex items-center gap-4">
+
+                    <x-admin.form.button>حفظ</x-admin.form.button>
+
+                    <x-admin.buttons.cancel click="restock = false"></x-admin.buttons.cancel>
 
 
                 </div>

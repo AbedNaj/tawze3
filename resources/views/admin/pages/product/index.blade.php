@@ -12,5 +12,5 @@
         ['field' => 'productType.name', 'label' => __('product.product_type')],
         ['field' => 'price', 'label' => __('product.price')],
     ]" :title="__('product.title')"
-        :allowSearch="false" detailsRouteName="admin.products.show" />
+        detailsRouteName="admin.products.show" />
 @endsection

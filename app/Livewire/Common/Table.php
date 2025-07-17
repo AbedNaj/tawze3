@@ -5,6 +5,7 @@ namespace App\Livewire\Common;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\DB;
 
 class Table extends Component
 {
@@ -70,6 +71,7 @@ class Table extends Component
         return $query->paginate(10);
     }
 
+    public function mount() {}
     public function render()
     {
         return view('livewire.common.table', [

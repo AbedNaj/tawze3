@@ -7,7 +7,7 @@
     <title>لوحة التحكم - @yield('title', 'الأدمن')</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-    @livewireStyles
+
 </head>
 
 <body class="bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 min-h-screen" x-data="{ sidebarOpen: false }">
@@ -82,7 +82,7 @@
         </div>
     </div>
 
-    @livewireScripts
+
 </body>
 
 </html>

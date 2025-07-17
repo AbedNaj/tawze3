@@ -5,11 +5,13 @@ declare(strict_types=1);
 use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EmployeeController;
+use App\Http\Controllers\Admin\EmployeeInventoryController;
 use App\Http\Controllers\Admin\EmployeeUserController;
 use App\Http\Controllers\Admin\InventoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProductTypeController;
 use App\Http\Middleware\RedirectIfNotAdmin;
+use App\Models\Tenants\EmployeeInventory;
 use Illuminate\Support\Facades\Route;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
 use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
@@ -93,6 +95,9 @@ Route::middleware([
                 Route::get('inventory/{inventory}/show', 'show')->name('inventory.show');
 
                 Route::patch('inventory/{inventory}/update', 'update')->name('inventory.update');
+                Route::patch('inventory/{inventory}/restock', 'restock')->name('inventory.restock');
+                Route::get('employee-inventory/transfer', 'transfer')->name('inventory.transfer');
+                Route::post('inventory/transfer', 'transterUpdate')->name('inventory.transterUpdate');
             });
 
 
@@ -112,10 +117,13 @@ Route::middleware([
                 Route::delete('employees/{employee}/delete', 'destroy')->name('employees.delete');
             });
 
+            Route::controller(EmployeeInventoryController::class)->group(function () {
 
+                Route::get('employee-inventory', 'index')->name('employeeInventory.index');
+
+                Route::get('employee-inventory/{employeeInventory}/show', 'show')->name('employeeInventory.show');
+            });
             Route::controller(EmployeeUserController::class)->group(function () {
-
-
 
                 Route::get('employeeUser/{employeeUser}/show', 'show')->name('employeeUser.show');
 
