@@ -3,11 +3,13 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\Admin\Auth\LoginController;
+use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EmployeeController;
 use App\Http\Controllers\Admin\EmployeeInventoryController;
 use App\Http\Controllers\Admin\EmployeeUserController;
 use App\Http\Controllers\Admin\InventoryController;
+use App\Http\Controllers\Admin\LocationController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProductTypeController;
 use App\Http\Middleware\RedirectIfNotAdmin;
@@ -129,6 +131,30 @@ Route::middleware([
 
                 Route::patch('employeeUser/{employeeUser}/update', 'update')->name('employeeUser.update');
                 Route::patch('employeeUser/{employeeUser}/update-password', 'updatePassword')->name('employeeUser.update-password');
+            });
+
+            Route::controller(LocationController::class)->group(function () {
+
+                Route::get('locations', 'index')->name('locations.index');
+                Route::get('locations/create', 'create')->name('locations.create');
+                Route::post('locations/create', 'store')->name('locations.store');
+
+                Route::patch('locations/{location}/update', 'update')->name('locations.update');
+                Route::get('locations/{location}/show', 'show')->name('locations.show');
+
+                Route::delete('locations/{location}/delete', 'destroy')->name('locations.delete');
+            });
+
+            Route::controller(CustomerController::class)->group(function () {
+
+                Route::get('customers', 'index')->name('customers.index');
+                Route::get('customers/create', 'create')->name('customers.create');
+                Route::post('customers/create', 'store')->name('customers.store');
+
+                Route::patch('customers/{customer}/update', 'update')->name('customers.update');
+                Route::get('customers/{customer}/show', 'show')->name('customers.show');
+
+                Route::delete('customers/{customer}/delete', 'destroy')->name('customers.delete');
             });
         });
     });

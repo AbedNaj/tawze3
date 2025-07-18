@@ -65,6 +65,13 @@
                 {{ __('sidebar.admin.employees') }}
             </x-admin.side-bar-button>
 
+            <x-admin.side-bar-button :icon="view('components.icons.customers')" :is_active="request()->routeis('admin.customers*')" href="{{ route('admin.customers.index') }}">
+                {{ __('sidebar.admin.customer') }}
+            </x-admin.side-bar-button>
+
+            <x-admin.side-bar-button :icon="view('components.icons.location')" :is_active="request()->routeis('admin.locations*')" href="{{ route('admin.locations.index') }}">
+                {{ __('sidebar.admin.location') }}
+            </x-admin.side-bar-button>
             <div class="my-4 border-t border-gray-200/40"></div>
 
 
