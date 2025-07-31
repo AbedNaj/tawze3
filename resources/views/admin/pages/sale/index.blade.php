@@ -1,0 +1,17 @@
+@extends('admin.layout.default')
+
+@section('content')
+    <section class="p-6 border-b border-slate-200 bg-gradient-to-r from-slate-50 to-slate-100">
+
+        <x-admin.button href="{{ route('admin.sales.create') }}">{{ __('sale.sale.add') }}</x-admin.button>
+    </section>
+
+    <livewire:admin.common.table listener="added" model="App\Models\Tenants\Sale" :columns="[
+        ['field' => 'invoice_number', 'label' => __('sale.sale.invoice_number')],
+        ['field' => 'employee.name', 'label' => __('sale.sale.employee_name')],
+        ['field' => 'customer.name', 'label' => __('sale.sale.customer_name')],
+        ['field' => 'price', 'label' => __('sale.sale.price')],
+        ['field' => 'status', 'label' => __('sale.sale.status'), 'enum' => App\Enums\SaleStatusEnum::class],
+    ]" :title="__('sale.sale.title')"
+        detailsRouteName="admin.sales.show" />
+@endsection

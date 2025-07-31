@@ -1,0 +1,39 @@
+<?php
+
+use App\Models\Tenants\Customer;
+use App\Models\Tenants\Employee;
+use App\Models\Tenants\PaymentMethod;
+use App\Models\Tenants\User;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('sales', function (Blueprint $table) {
+            $table->id();
+            $table->foreignIdFor(Employee::class)->nullable()->constrained()->nullOnDelete();
+            $table->foreignIdFor(Customer::class)->nullable()->constrained()->nullOnDelete();
+            $table->foreignIdFor(User::class)->nullable()->constrained()->nullOnDelete();
+            $table->foreignIdFor(PaymentMethod::class)->nullable()->constrained()->nullOnDelete();
+            $table->string('invoice_number');
+            $table->decimal('price', 10, 2)->default(0);
+            $table->enum('status', ['draft', 'confirmed', 'cancelled'])->default('draft');
+            $table->text('note')->nullable();
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('sales');
+    }
+};

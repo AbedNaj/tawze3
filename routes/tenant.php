@@ -10,8 +10,10 @@ use App\Http\Controllers\Admin\EmployeeInventoryController;
 use App\Http\Controllers\Admin\EmployeeUserController;
 use App\Http\Controllers\Admin\InventoryController;
 use App\Http\Controllers\Admin\LocationController;
+use App\Http\Controllers\Admin\PaymentMethodController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProductTypeController;
+use App\Http\Controllers\Admin\SaleController;
 use App\Http\Middleware\RedirectIfNotAdmin;
 use App\Models\Tenants\EmployeeInventory;
 use Illuminate\Support\Facades\Route;
@@ -155,6 +157,27 @@ Route::middleware([
                 Route::get('customers/{customer}/show', 'show')->name('customers.show');
 
                 Route::delete('customers/{customer}/delete', 'destroy')->name('customers.delete');
+            });
+
+            Route::controller(PaymentMethodController::class)->group(function () {
+
+                Route::get('payment-methods', 'index')->name('paymentMethods.index');
+                Route::get('payment-methods/create', 'create')->name('paymentMethods.create');
+                Route::post('payment-methods/create', 'store')->name('paymentMethods.store');
+                Route::get('payment-methods/{paymentMethod}/show', 'show')->name('paymentMethods.show');
+                Route::patch('payment-methods/{paymentMethod}/update', 'update')->name('paymentMethods.update');
+                Route::delete('payment-methods/{paymentMethod}/delete', 'destroy')->name('paymentMethods.delete');
+            });
+
+
+            Route::controller(SaleController::class)->group(function () {
+
+                Route::get('sales', 'index')->name('sales.index');
+                Route::get('sales/create', 'create')->name('sales.create');
+                Route::post('sales/create', 'store')->name('sales.store');
+                Route::get('sales/{sale}/show', 'show')->name('sales.show');
+                Route::patch('sales/{sale}/update', 'update')->name('sales.update');
+                Route::delete('sales/{sale}/delete', 'destroy')->name('sales.delete');
             });
         });
     });

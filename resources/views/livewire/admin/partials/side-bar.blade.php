@@ -51,6 +51,20 @@
                 </x-admin.side-bar-sub-link>
             </x-admin.side-bar-dropdown>
 
+            <x-admin.side-bar-dropdown :label="__('sidebar.admin.sale')" :is_active="request()->routeIs('admin.sales*') || request()->routeIs('admin.paymentMethods*')" :icon="view('components.icons.sales')">
+                <x-admin.side-bar-sub-link href="{{ route('admin.sales.index') }}" :is_active="request()->routeIs('admin.sales*')">
+                    {{ __('sidebar.admin.sales') }}
+                </x-admin.side-bar-sub-link>
+
+
+                <x-admin.side-bar-sub-link href="{{ route('admin.paymentMethods.index') }}" :is_active="request()->routeIs('admin.paymentMethods*')">
+                    {{ __('sidebar.admin.payment_method') }}
+                </x-admin.side-bar-sub-link>
+
+
+
+            </x-admin.side-bar-dropdown>
+
             <x-admin.side-bar-dropdown :label="__('sidebar.admin.products')" :is_active="request()->routeIs('admin.product-types*') || request()->routeIs('admin.product*')" :icon="view('components.icons.shopping-basket')">
                 <x-admin.side-bar-sub-link href="{{ route('admin.products.index') }}" :is_active="request()->routeIs('admin.products*')">
                     {{ __('sidebar.admin.products_list') }}

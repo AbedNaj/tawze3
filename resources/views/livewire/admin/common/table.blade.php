@@ -53,7 +53,7 @@
                             @foreach ($columns as $column)
                                 <td class="px-6 py-4 text-right align-middle">
                                     @php
-                                        $value = data_get($row, $column['field']);
+                                        $value = data_get($row, $column['field']) ?? __('common.no_data');
                                     @endphp
 
                                     @if (isset($column['enum']) && enum_exists($column['enum']))
