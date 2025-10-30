@@ -279,6 +279,11 @@ class SaleShow extends Component
     }
     public function saleDelete()
     {
+        if (count($this->saleItems) > 0) {
+            foreach ($this->saleItems as $item) {
+                $this->getInventory($item['product_id'])->increment('quantity', $item['stock']);
+            }
+        }
         $this->sale->delete();
 
         $this->dispatch(
@@ -292,6 +297,12 @@ class SaleShow extends Component
 
     public function saleCancel()
     {
+
+        if (count($this->sale->items) > 0) {
+            foreach ($this->sale->items as $item) {
+                $this->getInventory($item['product_id'])->increment('quantity', $item['stock']);
+            }
+        }
         $this->sale->update(['status' => SaleStatusEnum::CANCELLED]);
 
         $this->dispatch(
@@ -302,6 +313,7 @@ class SaleShow extends Component
 
         return redirect()->route('admin.sales.show', ['sale' => $this->sale->id]);
     }
+
     public function mount()
     {
         $this->fetchSaleData();

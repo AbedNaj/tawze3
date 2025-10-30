@@ -33,6 +33,8 @@
 
                 @include('admin.partials.sale.buttons')
             </div>
+
+            @include('admin.partials.sale.confirmSale')
         </div>
     </div>
 
@@ -47,6 +49,7 @@
             invoiceDate: new Date().toISOString().split('T')[0],
             discount: 0,
             products: [],
+            confirmSale: false,
 
 
 

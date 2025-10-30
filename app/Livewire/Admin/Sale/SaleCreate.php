@@ -6,15 +6,12 @@ use App\Enums\SaleStatusEnum;
 use App\Models\Tenants\Employee;
 use App\Models\Tenants\EmployeeInventory;
 use App\Models\Tenants\Inventory;
+use App\Models\Tenants\PaymentMethod;
 use App\Models\Tenants\Product;
-use App\Models\Tenants\ProductType;
 use App\Models\Tenants\Sale;
 use App\Models\Tenants\SaleItem;
-use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 use Livewire\Component;
-
-use function Pest\Laravel\get;
 
 class SaleCreate extends Component
 {
@@ -30,12 +27,14 @@ class SaleCreate extends Component
 
     public $product, $quantity = 0;
 
-    public $note, $customer, $employee;
+    public $note, $customer, $employee, $paymentMethod;
 
     public $saleItems = [], $total = 0;
 
     public $productInventory, $employeeName;
     public $selectedProductType;
+
+    public $paymentMethods = [];
     protected $rules = [
         'product' => 'required|integer|exists:products,id',
         'quantity' => 'nullable|numeric|min:1',
@@ -274,6 +273,12 @@ class SaleCreate extends Component
     }
     public function saleDelete()
     {
+
+        if (count($this->saleItems) > 0) {
+            foreach ($this->saleItems as $item) {
+                $this->getInventory($item['product_id'])->increment('quantity', $item['stock']);
+            }
+        }
         $this->sale->delete();
 
         $this->dispatch(
@@ -283,6 +288,10 @@ class SaleCreate extends Component
         );
 
         return redirect()->route('admin.sales.index');
+    }
+    public function fetchPaymentMethods()
+    {
+        $this->paymentMethod = PaymentMethod::pluck('name', 'id');
     }
     public function render()
     {

@@ -40,6 +40,18 @@
                 {{ __('sidebar.admin.main') }}
             </x-admin.side-bar-button>
 
+            <x-admin.side-bar-dropdown :label="__('sidebar.admin.sale')" :is_active="request()->routeIs('admin.sales*') || request()->routeIs('admin.paymentMethods*')" :icon="view('components.icons.sales')">
+                <x-admin.side-bar-sub-link href="{{ route('admin.sales.index') }}" :is_active="request()->routeIs('admin.sales*')">
+                    {{ __('sidebar.admin.sales') }}
+                </x-admin.side-bar-sub-link>
+
+
+                <x-admin.side-bar-sub-link href="{{ route('admin.paymentMethods.index') }}" :is_active="request()->routeIs('admin.paymentMethods*')">
+                    {{ __('sidebar.admin.payment_method') }}
+                </x-admin.side-bar-sub-link>
+
+            </x-admin.side-bar-dropdown>
+
             <x-admin.side-bar-dropdown :label="__('sidebar.admin.inventory')" :is_active="request()->routeIs('admin.inventory*') || request()->routeIs('admin.employeeInventory*')" :icon="view('components.icons.inventory')">
                 <x-admin.side-bar-sub-link href="{{ route('admin.inventory.index') }}" :is_active="request()->routeIs('admin.inventory.index*') || request()->routeIs('admin.inventory.show*')">
                     {{ __('sidebar.admin.inventory_list') }}
@@ -51,19 +63,7 @@
                 </x-admin.side-bar-sub-link>
             </x-admin.side-bar-dropdown>
 
-            <x-admin.side-bar-dropdown :label="__('sidebar.admin.sale')" :is_active="request()->routeIs('admin.sales*') || request()->routeIs('admin.paymentMethods*')" :icon="view('components.icons.sales')">
-                <x-admin.side-bar-sub-link href="{{ route('admin.sales.index') }}" :is_active="request()->routeIs('admin.sales*')">
-                    {{ __('sidebar.admin.sales') }}
-                </x-admin.side-bar-sub-link>
 
-
-                <x-admin.side-bar-sub-link href="{{ route('admin.paymentMethods.index') }}" :is_active="request()->routeIs('admin.paymentMethods*')">
-                    {{ __('sidebar.admin.payment_method') }}
-                </x-admin.side-bar-sub-link>
-
-
-
-            </x-admin.side-bar-dropdown>
 
             <x-admin.side-bar-dropdown :label="__('sidebar.admin.products')" :is_active="request()->routeIs('admin.product-types*') || request()->routeIs('admin.product*')" :icon="view('components.icons.shopping-basket')">
                 <x-admin.side-bar-sub-link href="{{ route('admin.products.index') }}" :is_active="request()->routeIs('admin.products*')">
@@ -75,17 +75,30 @@
                 </x-admin.side-bar-sub-link>
             </x-admin.side-bar-dropdown>
 
+
+
+
+
+            <x-admin.side-bar-dropdown :label="__('sidebar.admin.customer')" :is_active="request()->routeis('admin.customers*') || request()->routeis('admin.locations*')" :icon="view('components.icons.customers')">
+                <x-admin.side-bar-sub-link href="{{ route('admin.customers.index') }}" :is_active="request()->routeis('admin.customers*')">
+                    {{ __('sidebar.admin.customers_list') }}
+                </x-admin.side-bar-sub-link>
+
+                <x-admin.side-bar-sub-link href="{{ route('admin.locations.index') }}" :is_active="request()->routeis('admin.locations*')">
+                    {{ __('sidebar.admin.location') }}
+                </x-admin.side-bar-sub-link>
+            </x-admin.side-bar-dropdown>
+
+
             <x-admin.side-bar-button :icon="view('components.icons.employees')" :is_active="request()->routeis('admin.employees*') || request()->routeis('admin.employeeUser*')" href="{{ route('admin.employees.index') }}">
                 {{ __('sidebar.admin.employees') }}
             </x-admin.side-bar-button>
 
-            <x-admin.side-bar-button :icon="view('components.icons.customers')" :is_active="request()->routeis('admin.customers*')" href="{{ route('admin.customers.index') }}">
-                {{ __('sidebar.admin.customer') }}
-            </x-admin.side-bar-button>
 
-            <x-admin.side-bar-button :icon="view('components.icons.location')" :is_active="request()->routeis('admin.locations*')" href="{{ route('admin.locations.index') }}">
-                {{ __('sidebar.admin.location') }}
-            </x-admin.side-bar-button>
+
+
+
+
             <div class="my-4 border-t border-gray-200/40"></div>
 
 
@@ -101,7 +114,7 @@
                             </path>
                         </svg>
                     </div>
-                    <span>تسجيل الخروج</span>
+                    <span>{{ __('common.logout') }}</span>
                 </button>
             </form>
         </nav>

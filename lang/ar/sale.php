@@ -73,14 +73,10 @@ return [
         'delete_sale' => 'حذف الفاتورة',
         'completed' => 'مكتملة',
         'print_invoice' => 'طباعة الفاتورة',
-
-
         'completed_at' => 'تاريخ الإكمال',
-
-
         'no_employee_assigned' => 'لم يتم تعيين موظف',
         'cancel_sale' => 'إلغاء الفاتورة',
-
+        'confirm_sale' => 'تأكيد الفاتورة',
 
         'walk_in_customer' => 'عميل عادي',
 
