@@ -25,7 +25,8 @@ class UpdateCustomerRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255', Rule::unique('customers', 'name')->ignore($this->customer)],
             'phone' => 'nullable|string|max:20',
-            'location_id' => 'required|integer|exists:locations,id'
+            'location_id' => 'required|integer|exists:locations,id',
+            'address' => 'nullable|string|max:255',
         ];
     }
 }

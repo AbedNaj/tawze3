@@ -10,8 +10,8 @@
             <x-admin.form.input name="name" :label="__('customer.name')" />
 
             <x-admin.form.input name="phone" :label="__('customer.phone')" />
-            <x-admin.form.select name="location_id" :label="__('customer.location')" :options="$locations" />
-
+            <x-admin.form.select name="location_id" :label="__('customer.city')" :options="$locations" />
+            <x-admin.form.input name="address" :label="__('customer.address')" />
 
             <div>
                 <x-admin.form.button>

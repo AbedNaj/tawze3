@@ -8,5 +8,6 @@ return  [
     'the_customer' => 'الزبون',
     'edit_data' => 'تعديل البيانات',
     'phone' => 'رقم الهاتف',
-    'location' => 'الموقع'
+    'city' => 'المدينه',
+    'address' => 'الموقع',
 ];

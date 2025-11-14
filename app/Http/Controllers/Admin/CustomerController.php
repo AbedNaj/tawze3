@@ -41,7 +41,8 @@ class CustomerController extends Controller
             [
                 'name' => $validated['name'],
                 'phone' => $validated['phone'],
-                'location_id' => $validated['location_id']
+                'location_id' => $validated['location_id'],
+                'address' => $validated['address']
             ]
         );
 
@@ -81,7 +82,8 @@ class CustomerController extends Controller
             [
                 'name' => $validated['name'],
                 'phone' => $validated['phone'],
-                'location_id' => $validated['location_id']
+                'location_id' => $validated['location_id'],
+                'address' => $validated['address']
             ]
         );
 

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignIdFor(Location::class)->nullable()->constrained()->nullOnDelete();
             $table->string('name')->unique();
             $table->string('phone')->nullable();
+            $table->string('address')->nullable();
             $table->timestamps();
         });
     }

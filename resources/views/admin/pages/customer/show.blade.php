@@ -21,7 +21,8 @@
                 <dl class="space-y-2">
                     <x-admin.read-only-field :label="__('customer.name')" :value="$customer->name" />
                     <x-admin.read-only-field :label="__('customer.phone')" :value="$customer->phone" />
-                    <x-admin.read-only-field :label="__('customer.location')" :value="$customer->location->name" />
+                    <x-admin.read-only-field :label="__('customer.city')" :value="$customer->location->name" />
+                    <x-admin.read-only-field :label="__('customer.address')" :value="$customer->address" />
 
                 </dl>
 
@@ -47,6 +48,7 @@
                     <x-admin.form.input name="phone" :label="__('customer.phone')" :value="$customer->phone" />
                     <x-admin.form.select name="location_id" :label="__('customer.location')" :value="$customer->location_id" :options="$locations" />
 
+                    <x-admin.form.input name="address" :label="__('customer.address')" :value="$customer->address" />
                     <div class="flex items-center gap-4">
 
                         <x-admin.form.button>{{ __('inventory.save') }}</x-admin.form.button>

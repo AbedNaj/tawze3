@@ -14,7 +14,7 @@ return [
         'transfer_to_employee' => 'توزيع على موظف',
         'employee_inventory_list' => 'مخزون الموظفين',
         'customer' => 'الزبائن',
-        'location' => 'المواقع',
+        'location' => 'المدن',
         'sale' => 'عمليات البيع',
         'payment_method' => 'طرق الدفع',
         'sales' => 'الفواتير',

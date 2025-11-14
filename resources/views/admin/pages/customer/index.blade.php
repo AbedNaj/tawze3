@@ -9,7 +9,7 @@
     <livewire:admin.common.table listener="added" model="App\Models\Tenants\Customer" :columns="[
         ['field' => 'name', 'label' => __('customer.name')],
         ['field' => 'phone', 'label' => __('customer.phone')],
-        ['field' => 'location.name', 'label' => __('customer.location')],
+        ['field' => 'location.name', 'label' => __('customer.city')],
     ]" :title="__('customer.title')"
         :allowSearch="false" detailsRouteName="admin.customers.show" />
 @endsection
