@@ -15,7 +15,8 @@
         "livewire/livewire": "^3.6",
         "predis/predis": "^3.0",
         "spatie/laravel-permission": "^6.20",
-        "stancl/tenancy": "^3.9"
+        "stancl/tenancy": "^3.9",
+        "wireui/wireui": "^2.5"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.15",

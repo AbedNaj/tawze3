@@ -21,4 +21,5 @@ return [
     'show_inventory' => 'عرض المخزون',
     'save' => 'حفظ',
 
+
 ];

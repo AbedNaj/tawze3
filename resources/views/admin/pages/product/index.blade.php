@@ -5,9 +5,15 @@
         <x-admin.button
             href="{{ route('admin.products.product-entry-method') }}">{{ __('product.add_new') }}</x-admin.button>
 
-    </section>
 
-    <livewire:admin.common.table listener="added" model="App\Models\Tenants\Product" :columns="[
+
+    </section>
+    <div class="px-2 py-4 space-x-2">
+        @livewire('admin.filters.product-filters')
+
+    </div>
+
+    <livewire:admin.common.table model="App\Models\Tenants\Product" :columns="[
         ['field' => 'name', 'label' => __('product.name')],
         ['field' => 'productType.name', 'label' => __('product.product_type')],
         ['field' => 'price', 'label' => __('product.price')],

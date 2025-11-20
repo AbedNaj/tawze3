@@ -1,6 +1,9 @@
 @import 'tailwindcss';
 @import '@fortawesome/fontawesome-free/css/all.min.css';
 
+
+
+
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 @source '../**/*.blade.php';
@@ -9,4 +12,37 @@
 @theme {
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+
+@theme {
+    --color-bg: #ffffff;
+    --color-primary: #4f46e5;
+    --color-secondary: #64748b;
+    --color-text: #1e293b;
+    --color-accent: #f97316;
+    --color-surface: #f1f5f9;
+    --color-border: #e2e8f0;
+}
+
+@theme .dark {
+    --color-bg: #0f172a;
+    --color-primary: #818cf8;
+    --color-secondary: #cbd5e1;
+    --color-text: #f1f5f9;
+    --color-accent: #fb923c;
+    --color-surface: #1e293b;
+    --color-border: #334155;
+}
+
+[data-theme=dark] {
+    --color-bg: #0f172a;
+    --color-primary: #818cf8;
+    --color-secondary: #cbd5e1;
+    --color-text: #f1f5f9;
+    --color-accent: #fb923c;
+    --color-surface: #1e293b;
+    --color-border: #334155;
 }

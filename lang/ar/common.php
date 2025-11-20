@@ -14,4 +14,9 @@ return [
     'no' => 'لا',
     'logout' => 'تسجيل الخروج',
     'save' => 'حفظ',
+    'select' => 'اختيار',
+    'search_placeholder' => 'اكتب للبحث...',
+    'serach' => 'بحث',
+    'search_by_name' => 'البحث بالاسم',
+    'show' => 'عرض',
 ];

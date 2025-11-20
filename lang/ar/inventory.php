@@ -26,4 +26,10 @@ return [
     'quantity_error' => 'الكمية المطلوبة أكبر من المتوفر في المخزون.',
     'select_product' => 'يرجى اختيار منتج',
     'employees_inventory' => 'مخزون الموظفين',
+    'inventory_status' => 'الحالة',
+    'status' => [
+        'normal' => 'طبيعي',
+        'low_stock' => 'كمية منخفضة',
+        'out_of_stock' => 'نفد المخزون',
+    ]
 ];

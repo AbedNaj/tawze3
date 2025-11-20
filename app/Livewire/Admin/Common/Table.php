@@ -24,17 +24,34 @@ class Table extends Component
 
 
     public string $listener;
-    // Only supports simple search on the 'name' column within the same table.
-    // Advanced search with relationships requires custom implementation.
+
     public bool $allowSearch = true;
 
 
     public function getListeners()
     {
         return [
-            $this->listener => '$refresh',
+            'set-filters' => 'setFilters',
+            'set-relation-filters' => 'setRelationFilters',
         ];
     }
+
+    public function setFilters(?array $data)
+    {
+
+        $this->filters = $data;
+        $this->resetPage();
+    }
+
+    public function setRelationFilters(?array $data)
+    {
+
+        $this->relationFilters = $data;
+
+
+        $this->resetPage();
+    }
+
     public function getRowsProperty()
     {
 
@@ -45,17 +62,18 @@ class Table extends Component
         }
 
 
+        foreach ($this->filters as $field => $value) {
+            if (filled($value)) {
 
-        foreach ($this->filters as $filter) {
-            if (!empty($filter['value'])) {
-                $query->where($filter['field'], $filter['operator'], $filter['value']);
+                $query->where($field, '=', $value);
             }
         }
 
         foreach ($this->relationFilters as $relation => $withFilter) {
-            if (!empty($withFilter['value'])) {
+            if (filled($withFilter['value'])) {
+
                 $query->whereHas($relation, function (Builder $query) use ($withFilter) {
-                    $query->where($withFilter['field'], $withFilter['operator'], $withFilter['value']);
+                    $query->where($withFilter['field'], 'like',  '%' . $withFilter['value'] . '%');
                 });
             }
         }

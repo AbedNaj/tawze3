@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('quantity')->default(0);
             $table->integer('min_stock_alert')->default(0);
             $table->date('last_restock_date')->nullable();
+            $table->enum('status', ['normal', 'low_stock', 'out_of_stock'])->default('normal');
             $table->timestamps();
         });
     }

@@ -15,6 +15,25 @@ return [
     'employee_account' => 'حساب الموظف',
     'password_change' => 'تغيير كلمة المرور',
     'password' => 'كلمة المرور',
-    'new_password' => 'كلمة المرور الجديده'
+    'new_password' => 'كلمة المرور الجديده',
+    'select' => 'اختر موظف',
+    'employee_inventory' => 'مخزون الموظف',
+    'select_employee_message' => 'يرجى اختيار موظف لعرض المخزون',
+    'select_employee_sub_message' => 'يرجى اختيار موظف من القائمة',
+    'product_name' => 'إسم المنتج',
+    'quantity' => 'الكمية',
+
+    'inventory' => [
+        'status' => [
+            'normal' => 'طبيعي',
+            'low_stock' => 'مخزون منخفض',
+            'out_of_stock' => 'نفذ المخزون',
+            'unknown' => 'غير معروف',
+        ],
+        'quantity' => 'الكمية',
+        'inventory_status' => 'الحالة',
+        'empty' => 'لا يوجد مخزون للموظف المختار',
+
+    ]
 
 ];

@@ -1,4 +1,4 @@
-              <button @click="confirmSale = true" wire:click='fetchPaymentMethods'
+              <button @click="confirmSale = true" wire:click='saleConfirm'
                   class="px-6 py-3 bg-gradient-to-r hover:cursor-pointer from-green-500 to-emerald-500 text-white rounded-lg hover:from-green-600 hover:to-emerald-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 font-medium">
                   <i class="fas fa-check mx-2"></i>{{ __('sale.sale.invoice_create') }}
               </button>

@@ -7,5 +7,5 @@
     </section>
 
     <livewire:admin.common.table listener="added" model="App\Models\Tenants\Location" :columns="[['field' => 'name', 'label' => __('location.name')]]" :title="__('location.title')"
-        :allowSearch="false" detailsRouteName="admin.locations.show" />
+        detailsRouteName="admin.locations.show" />
 @endsection

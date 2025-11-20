@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignIdFor(Employee::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Product::class)->constrained()->cascadeOnDelete();
             $table->string('quantity');
+            $table->enum('status', ['normal', 'low_stock', 'out_of_stock'])->default('normal');
             $table->timestamps();
         });
     }

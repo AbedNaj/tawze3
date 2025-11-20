@@ -8,5 +8,5 @@
 
     <livewire:admin.common.table listener="added" model="App\Models\Tenants\ProductType" :columns="[['field' => 'name', 'label' => 'اسم نوع المنتج']]"
         title="
-أنواع المنتجات " :allowSearch="false" detailsRouteName="admin.product-types.show" />
+أنواع المنتجات " detailsRouteName="admin.product-types.show" />
 @endsection
