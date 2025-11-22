@@ -17,4 +17,9 @@ class Customer extends Model
     {
         return $this->belongsTo(Location::class);
     }
+
+    public function sales()
+    {
+        return $this->hasMany(Sale::class);
+    }
 }

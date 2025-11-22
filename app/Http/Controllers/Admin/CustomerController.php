@@ -57,9 +57,11 @@ class CustomerController extends Controller
 
         $customer->load('location:id,name');
         $locations = Location::orderByRaw('name')->pluck('name', 'id');
+        $sales = [];
         return view('admin.pages.customer.show', [
             'customer' => $customer,
-            'locations' => $locations
+            'locations' => $locations,
+
         ]);
     }
 
