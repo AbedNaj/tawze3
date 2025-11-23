@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Tenants\stockMovement;
+use App\Models\Tenants\StockMovement;
 use App\Http\Requests\StorestockMovementRequest;
 use App\Http\Requests\UpdatestockMovementRequest;
 
@@ -35,7 +35,7 @@ class StockMovementController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(stockMovement $stockMovement)
+    public function show(StockMovement $stockMovement)
     {
         //
     }
@@ -43,7 +43,7 @@ class StockMovementController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(stockMovement $stockMovement)
+    public function edit(StockMovement $stockMovement)
     {
         //
     }
@@ -51,7 +51,7 @@ class StockMovementController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatestockMovementRequest $request, stockMovement $stockMovement)
+    public function update(UpdatestockMovementRequest $request, StockMovement $stockMovement)
     {
         //
     }
@@ -59,7 +59,7 @@ class StockMovementController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(stockMovement $stockMovement)
+    public function destroy(StockMovement $stockMovement)
     {
         //
     }

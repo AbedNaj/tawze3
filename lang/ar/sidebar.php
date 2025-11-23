@@ -9,7 +9,7 @@ return [
         'products_type' => 'أنواع المنتجات',
         'products_list' => 'قائمة المنتجات',
         'inventory' => 'المخزون',
-        'inventory_list' => 'قائمة المخزون',
+        'inventory_list' => 'المخزون الرئيسي',
         'employees' => 'الموظفين',
         'transfer_to_employee' => 'توزيع على موظف',
         'employee_inventory_list' => 'مخزون الموظفين',

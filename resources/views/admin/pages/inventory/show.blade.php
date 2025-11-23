@@ -30,6 +30,14 @@
                     <dt class="font-medium">{{ __('inventory.last_restock_date') }}</dt>
                     <dd>{{ $inventory->last_restock_date ?? __('inventory.not_available') }}</dd>
                 </div>
+                @php
+                    $inventoryStatus = App\Enums\InventoryStatusEnum::tryFrom($inventory->status);
+                @endphp
+                <div class="py-2 flex justify-between">
+                    <dt class="font-medium">{{ __('inventory.inventory_status') }}</dt>
+                    <dd class="bg-{{ $inventoryStatus->color() }}-500 px-2 py-1 rounded text-white inline-block">
+                        {{ $inventoryStatus->label() ?? __('inventory.not_available') }}</dd>
+                </div>
             </dl>
 
             <div class="mt-6 flex gap-4">

@@ -25,9 +25,8 @@ return [
 
     'inventory' => [
         'status' => [
-            'normal' => 'طبيعي',
-            'low_stock' => 'مخزون منخفض',
-            'out_of_stock' => 'نفذ المخزون',
+            'in_stock'  => 'متوفر',
+            'out_stock' => 'غير متوفر',
             'unknown' => 'غير معروف',
         ],
         'quantity' => 'الكمية',

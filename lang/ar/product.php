@@ -20,6 +20,6 @@ return [
     'no_qr_code' => 'لا يوجد QR كود',
     'show_inventory' => 'عرض المخزون',
     'save' => 'حفظ',
-
+    'submit' => 'إرسال',
 
 ];

@@ -40,6 +40,7 @@ class InventoryController extends Controller
      */
     public function show(Inventory $inventory)
     {
+
         $inventory->load('product:name,id,product_type_id');
         return view('admin.pages.inventory.show', ['inventory' => $inventory]);
     }
@@ -74,15 +75,17 @@ class InventoryController extends Controller
 
     public function restock(Request $request, Inventory $inventory)
     {
+
         $validated = $request->validate([
             'quantity' => 'numeric|required|min:0',
         ]);
 
         $inventory->increment('quantity', $validated['quantity']);
+
         $inventory->update([
             'last_restock_date' => now()
         ]);
-        return back()->with('status', 'تمت إعادة التوريد بنجاح');
+        return redirect()->route('admin.inventory.show', $inventory)->with('status', 'تمت إعادة التوريد بنجاح');
     }
     public function transfer()
     {
@@ -95,9 +98,12 @@ class InventoryController extends Controller
     }
 
 
-    // this function is no longer in use because LiveWire component is reponsible of the transfer
+
     public function transterUpdate(Request $request)
     {
+        // this function is no longer in use because LiveWire component is reponsible of the transfer
+
+
         $validated = $request->validate(
             [
                 'employee' => 'required|exists:employees,id',
