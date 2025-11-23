@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\SaleStatusEnum;
 use App\Http\Controllers\Controller;
 use App\Models\Tenants\Customer;
 use App\Models\Tenants\Sale;
@@ -25,21 +26,24 @@ class SaleController extends Controller
      */
     public function create()
     {
-
+        $lastSale = Sale::orderBy('created_at', 'desc')->first();
 
         $employees = Employee::pluck('name', 'id');
         $customers = Customer::pluck('name', 'id');
         $productTypes = ProductType::pluck('name', 'id');
-        return view(
-            'admin.pages.sale.create',
-            [
+
+        if ($lastSale && $lastSale['status'] === SaleStatusEnum::DRAFT->value) {
+            return view('admin.pages.sale.show', [
+                'sale' => $lastSale,
                 'employees' => $employees,
                 'customers' => $customers,
                 'productTypes' => $productTypes,
+            ]);
+        }
 
-            ]
-        );
+        return view('admin.pages.sale.create', compact('employees', 'customers', 'productTypes'));
     }
+
 
     /**
      * Store a newly created resource in storage.

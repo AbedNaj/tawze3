@@ -40,7 +40,14 @@ class LoginRequest extends FormRequest
             $this->recordLoginAttempt();
             throw ValidationException::withMessages(['password' => __('auth.failed')]);
         } else {
+            $user = Auth::guard('admin')->user();
+            if (!$user->hasRole('admin')) {
+                Auth::guard('admin')->logout();
+                throw ValidationException::withMessages(['password' => __('auth.failed')]);
+            }
 
+
+            request()->session()->regenerate();
             $this->clearRateLimit();
         }
     }

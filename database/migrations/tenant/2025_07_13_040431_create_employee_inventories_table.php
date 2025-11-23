@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignIdFor(Employee::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Product::class)->constrained()->cascadeOnDelete();
             $table->string('quantity');
-            $table->enum('status', ['in_stock', 'out_stock'])->default('normal');
+            $table->enum('status', ['in_stock', 'out_stock'])->default('in_stock');
             $table->timestamps();
         });
     }

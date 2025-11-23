@@ -5,6 +5,7 @@ namespace App\Http\Controllers\SuperAdmin;
 use App\Http\Controllers\Controller;
 use App\Models\Tenant;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CompanyController extends Controller
 {
@@ -46,11 +47,13 @@ class CompanyController extends Controller
         tenancy()->initialize($tenant);
 
 
-        \App\Models\Tenants\User::create([
+        $adminUser =   \App\Models\Tenants\User::create([
             'name' => $validated['name'],
             'email' => $validated['tenant_id'] . '@' . env('APP_DOMAIN', 'tawze3.test'),
-            'password' => bcrypt('password'),
+            'password' => bcrypt('123'),
         ]);
+
+        $adminUser->assignRole('admin');
 
 
         tenancy()->end();
