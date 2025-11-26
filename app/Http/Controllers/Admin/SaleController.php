@@ -10,6 +10,7 @@ use App\Http\Requests\Admin\Sale\StoreSaleRequest;
 use App\Http\Requests\Admin\Sale\UpdateSaleRequest;
 use App\Models\Tenants\Employee;
 use App\Models\Tenants\ProductType;
+use Illuminate\Support\Facades\Auth;
 
 class SaleController extends Controller
 {
@@ -26,22 +27,35 @@ class SaleController extends Controller
      */
     public function create()
     {
-        $lastSale = Sale::orderBy('created_at', 'desc')->first();
+        $lastSale = Sale::orderBy('created_at', 'desc')
+            ->where('user_id', '=', Auth::guard('admin')->user()->id)->first();
 
         $employees = Employee::pluck('name', 'id');
         $customers = Customer::pluck('name', 'id');
         $productTypes = ProductType::pluck('name', 'id');
 
         if ($lastSale && $lastSale['status'] === SaleStatusEnum::DRAFT->value) {
-            return view('admin.pages.sale.show', [
+
+            return redirect()->route('admin.sales.show', [
                 'sale' => $lastSale,
                 'employees' => $employees,
                 'customers' => $customers,
                 'productTypes' => $productTypes,
             ]);
-        }
+        } else {
+            $sale = Sale::create([
+                'price' => 0,
+                'user_id' => Auth::guard('admin')->user()->id,
+                'invoice_date' => now(),
+            ]);
 
-        return view('admin.pages.sale.create', compact('employees', 'customers', 'productTypes'));
+            return redirect()->route('admin.sales.show', [
+                'sale' => $sale->id,
+                'employees' => $employees,
+                'customers' => $customers,
+                'productTypes' => $productTypes,
+            ]);
+        }
     }
 
 

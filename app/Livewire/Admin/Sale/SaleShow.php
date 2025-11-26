@@ -8,6 +8,7 @@ use App\Enums\SaleStatusEnum;
 use App\Models\Tenants\Employee;
 use App\Models\Tenants\EmployeeInventory;
 use App\Models\Tenants\Inventory;
+use App\Models\Tenants\PaymentMethod;
 use App\Models\Tenants\Product;
 use App\Models\Tenants\ProductType;
 use App\Models\Tenants\Sale;
@@ -28,12 +29,13 @@ class SaleShow extends Component
 
     public $product, $quantity = 0;
 
-    public $note, $customer, $employee;
+    public $note, $customer, $employee, $invoiceDate, $price;
 
     public $saleItems = [], $total = 0;
 
     public $productInventory, $employeeName;
 
+    public $paymentMethods = [], $paymentMethod, $paidAmount = 0;
     public $selectedProductType;
     protected $rules = [
         'product' => 'required|integer|exists:products,id',
@@ -41,10 +43,20 @@ class SaleShow extends Component
         'note' => 'nullable|string|max:1000',
         'customer' => 'required|exists:customers,id',
         'employee' => 'nullable|exists:employees,id',
+        'invoiceDate' => 'date',
+        'paymentMethod' => 'required|integer|exists:payment_methods,id',
+        'paidAmount' => 'required|numeric|min:0',
 
     ];
 
 
+    public function updatedInvoiceDate()
+    {
+        $this->validateOnly('invoiceDate');
+        $this->sale->update([
+            'invoice_date' => $this->invoiceDate,
+        ]);
+    }
     public function updatedisForEmployee()
     {
 
@@ -82,6 +94,15 @@ class SaleShow extends Component
             'note' => $this->note
         ]);
     }
+
+    public function fetchPaymentMethods()
+    {
+
+
+        $this->paymentMethods = PaymentMethod::select('id', 'name')->get();
+    }
+
+
     public function UpdatedSelectedProductType()
     {
 
@@ -97,6 +118,8 @@ class SaleShow extends Component
     {
         $this->validate([
             'customer' => 'required|exists:customers,id',
+            'paymentMethod' => 'required|integer|exists:payment_methods,id',
+            'paidAmount' => 'required|numeric|min:0',
         ]);
 
         if (count($this->saleItems) == 0) {
@@ -106,10 +129,29 @@ class SaleShow extends Component
                 message: __('sale.sale.add_products_message')
             );
             return;
+        } elseif ($this->paidAmount > $this->total) {
+            throw ValidationException::withMessages(['paidAmount' => __('sale.sale.paid_amount_error')]);
         }
+
+
+        foreach ($this->saleItems as $saleItem) {
+
+            $inventory = Inventory::where('product_id', $saleItem['product_id'])
+                ->lockForUpdate()
+                ->firstOrFail();
+
+            $inventory->quantity -= $saleItem['stock'];
+
+            $inventory->save();
+        }
+
+
         $this->sale->update(
             [
                 'status' => SaleStatusEnum::CONFIRMED,
+                'payment_method_id' => $this->paymentMethod,
+                'total_paid' => $this->paidAmount,
+                'price' => $this->total,
             ]
         );
 
@@ -122,6 +164,7 @@ class SaleShow extends Component
         return redirect()->route('admin.sales.show', ['sale' => $this->sale->id]);
     }
 
+
     public function productItemCreate()
     {
 
@@ -131,19 +174,36 @@ class SaleShow extends Component
             'quantity' => 'nullable|numeric|min:1',
         ]);
 
+        $saleItems = collect($this->saleItems)
+            ->where('product_id', $this->product);
 
-        if ($this->quantity > $this->productInventory) {
-            throw ValidationException::withMessages(['quantity' => __('sale.sale.quantity_error')]);
+        if ($saleItems->count() > 0) {
+
+            $itemQuantity = 0;
+
+            foreach ($saleItems as $item) {
+                $itemQuantity += $item['stock'];
+            }
+
+            $newQuantity = $this->quantity + $itemQuantity;
+
+            if ($newQuantity > $this->productInventory) {
+
+                throw ValidationException::withMessages(['quantity' => __('sale.sale.quantity_error')]);
+            }
+
+
+            SaleItem::where('product_id', $this->product)->update(['stock' => $newQuantity]);
+        } else {
+
+            $saleItem =   SaleItem::create(
+                [
+                    'sale_id' => $this->sale->id,
+                    'product_id' => $this->product,
+                    'stock' => $this->quantity,
+                ]
+            );
         }
-        $saleItem =   SaleItem::create(
-            [
-                'sale_id' => $this->sale->id,
-                'product_id' => $this->product,
-                'stock' => $this->quantity,
-            ]
-        );
-
-        $this->getInventory($this->product)->decrement('quantity', $this->quantity);
 
         $this->reset([
             'product',
@@ -182,14 +242,15 @@ class SaleShow extends Component
         foreach ($this->saleItems as $item) {
             $this->total  += $item['price'];
         }
-
-        $this->sale->increment('price', $this->total);
     }
 
     public function increaseQuantity($saleID)
     {
         $saleItem = SaleItem::find($saleID);
-        if ($this->inventoryChange(true, $saleItem->product_id) == false) {
+
+        $inventory = $this->getInventory($saleItem['product_id'])->value('quantity');
+
+        if ($inventory <= $saleItem['stock']) {
             $this->dispatch(
                 'notify',
                 type: 'error',
@@ -197,6 +258,7 @@ class SaleShow extends Component
             );
             return;
         }
+
         $saleItem->stock += 1;
         $saleItem->save();
 
@@ -219,36 +281,15 @@ class SaleShow extends Component
         }
         $saleItem->stock -= 1;
         $saleItem->save();
-        $this->inventoryChange(false, $saleItem->product_id);
+
         $this->fetchSaleItems();
     }
 
 
-    public function inventoryChange($isIncrease = true, $product = null)
-    {
-        $inventory = $this->getInventory($product)->first();
-
-        if ($isIncrease == true) {
-
-            if ($inventory && $inventory->quantity > 0) {
-                $inventory->decrement('quantity', 1);
-            } else {
-                return false;
-            }
-        } else {
-
-
-            if ($inventory) {
-                $inventory->increment('quantity', 1);
-            }
-        }
-        return true;
-    }
     public function removeProduct($saleID)
     {
         $sale = SaleItem::find($saleID);
 
-        $this->getInventory($sale->product_id)->increment('quantity', $sale->stock);
         $sale->delete();
 
         $this->dispatch(
@@ -273,17 +314,13 @@ class SaleShow extends Component
             $this->employee = $this->sale->employee_id;
             $this->note = $this->sale->note;
             $this->employeeName = $this->sale->employee ? Employee::find($this->sale->employee_id)->name : null;
-
+            $this->invoiceDate = $this->sale->invoice_date;
             $this->fetchSaleItems();
         }
     }
     public function saleDelete()
     {
-        if (count($this->saleItems) > 0) {
-            foreach ($this->saleItems as $item) {
-                $this->getInventory($item['product_id'])->increment('quantity', $item['stock']);
-            }
-        }
+
         $this->sale->delete();
 
         $this->dispatch(
@@ -298,11 +335,7 @@ class SaleShow extends Component
     public function saleCancel()
     {
 
-        if (count($this->sale->items) > 0) {
-            foreach ($this->sale->items as $item) {
-                $this->getInventory($item['product_id'])->increment('quantity', $item['stock']);
-            }
-        }
+
         $this->sale->update(['status' => SaleStatusEnum::CANCELLED]);
 
         $this->dispatch(

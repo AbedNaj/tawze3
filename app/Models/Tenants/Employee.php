@@ -16,7 +16,7 @@ class Employee extends Model
 
     public function user()
     {
-        return $this->belongsTo(EmployeeUser::class, 'employee_user_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function inventories()

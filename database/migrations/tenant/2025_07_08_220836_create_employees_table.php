@@ -1,7 +1,7 @@
 <?php
 
 use App\Models\Tenants\Employee;
-use App\Models\Tenants\EmployeeUser;
+
 use App\Models\Tenants\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -16,7 +16,7 @@ return new class extends Migration
     {
         Schema::create('employees', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(EmployeeUser::class)->constrained()->cascadeOnDelete();;
+            $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();;
             $table->string('name');
             $table->string('phone')->nullable();
             $table->timestamps();

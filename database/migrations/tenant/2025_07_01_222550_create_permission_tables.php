@@ -49,7 +49,7 @@ return new class extends Migration
         });
         DB::table('roles')->insert([
             ['name' => 'admin', 'guard_name' => 'admin', 'created_at' => now(), 'updated_at' => now()],
-            ['name' => 'employee', 'guard_name' => 'employee', 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'employee', 'guard_name' => 'admin', 'created_at' => now(), 'updated_at' => now()],
         ]);
 
         Schema::create($tableNames['model_has_permissions'], static function (Blueprint $table) use ($tableNames, $columnNames, $pivotPermission, $teams) {

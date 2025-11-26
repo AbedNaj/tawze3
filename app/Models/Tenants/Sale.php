@@ -3,10 +3,13 @@
 namespace App\Models\Tenants;
 
 use App\Enums\SaleStatusEnum;
+use App\Observers\SaleObserver;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
+#[ObservedBy(SaleObserver::class)]
 class Sale extends Model
 {
     /** @use HasFactory<\Database\Factories\Tenants\SaleFactory> */
@@ -46,5 +49,10 @@ class Sale extends Model
     {
 
         return $this->belongsTo(Employee::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

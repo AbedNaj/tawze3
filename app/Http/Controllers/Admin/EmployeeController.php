@@ -35,17 +35,19 @@ class EmployeeController extends Controller
     {
         $validated = $request->validated();
 
-        $user = EmployeeUser::create(
+        $user = User::create(
             [
-                'user_name' => $validated['user_name'],
+                'email' => $validated['user_name'],
                 'password' => Hash::make('123'),
+                'name' => $validated['name'],
             ]
         );
 
         $user->assignRole('employee');
+
         Employee::create(
             [
-                'employee_user_id' => $user->id,
+                'user_id' => $user->id,
                 'name' => $validated['name'],
                 'phone' => $validated['phone'],
             ]

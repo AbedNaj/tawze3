@@ -20,11 +20,14 @@ return new class extends Migration
             $table->foreignIdFor(Employee::class)->nullable()->constrained()->nullOnDelete();
             $table->foreignIdFor(Customer::class)->nullable()->constrained()->nullOnDelete();
             $table->foreignIdFor(User::class)->nullable()->constrained()->nullOnDelete();
+            $table->foreignIdFor(PaymentMethod::class)->nullable()->constrained()->nullOnDelete();
             $table->string('invoice_number');
             $table->decimal('price', 10, 2)->default(0);
             $table->enum('status', ['draft', 'confirmed', 'cancelled'])->default('draft');
             $table->text('note')->nullable();
             $table->decimal('total_paid', 10, 2)->default(0);
+            $table->enum('payment_status', ['paid', 'unpaid', 'partially_paid'])->default('paid');
+            $table->date('invoice_date')->nullable();
             $table->timestamps();
         });
     }

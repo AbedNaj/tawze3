@@ -9,7 +9,7 @@
     <livewire:admin.common.table listener="added" :with="['user']" model="App\Models\Tenants\Employee" :columns="[
         ['field' => 'name', 'label' => __('employee.name')],
         ['field' => 'phone', 'label' => __('employee.phone')],
-        ['field' => 'user.user_name', 'label' => __('employee.user_name')],
+        ['field' => 'user.email', 'label' => __('employee.user_name')],
     ]"
         :title="__('employee.title')" detailsRouteName="admin.employees.show" />
 @endsection

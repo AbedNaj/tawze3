@@ -14,10 +14,12 @@
                                      class="text-sm font-medium text-gray-600">{{ __('sale.sale.invoice_date') }}:</span>
                                  <span class="text-sm text-gray-800">{{ $sale->created_at->format('Y-m-d') }}</span>
                              </div>
+
                              <div class="flex justify-between">
                                  <span
-                                     class="text-sm font-medium text-gray-600">{{ __('sale.sale.completed_at') }}:</span>
-                                 <span class="text-sm text-gray-800">{{ $sale->updated_at->format('Y-m-d H:i') }}</span>
+                                     class="text-sm font-medium text-gray-600">{{ __('sale.sale.created_by') }}:</span>
+                                 <span class="text-sm text-gray-800">{{ $sale->user->name }}</span>
                              </div>
+
                          </div>
                      </x-admin.sale.card>

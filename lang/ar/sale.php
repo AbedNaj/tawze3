@@ -77,10 +77,10 @@ return [
         'no_employee_assigned' => 'لم يتم تعيين موظف',
         'cancel_sale' => 'إلغاء الفاتورة',
         'confirm_sale' => 'تأكيد الفاتورة',
-
+        'paid_amount_error' => 'المبلغ المدفوع اعلى من مبلغ الفاتورة',
         'walk_in_customer' => 'عميل عادي',
-
-
+        'financial_summary'  => 'ملخص الحالة المالية',
+        'payment_status' => 'حالة الدفع',
         'sold_products' => 'المنتجات المباعة',
 
         'notes' => 'الملاحظات',
@@ -89,13 +89,16 @@ return [
         'subtotal' => 'المجموع الفرعي',
         'discount' => 'الخصم',
         'total_paid' => 'المبلغ المدفوع',
-
-
+        'paid' => 'مدفوع',
+        'unpaid' => 'غير مدفوع',
+        'partially_paid' =>  'مدفوع بشكل جزئي',
+        'payment_method_placeholder' => 'اختر طريقة دفع',
         'back_to_sales' => 'العودة للمبيعات',
         'download_invoice' => 'تحميل الفاتورة',
-
-
-
+        'created_by' => 'تم الإنشاء بواسطة',
+        'paid_amount' => 'المبلغ المدفوع',
+        'paid_amount_placeholder' => 'المبللغ المدفوع لهذه الفاتورة',
+        'sale_amount' => 'مبلغ الفاتورة',
 
     ]
 
