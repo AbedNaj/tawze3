@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Pages\Customer;
 
+use App\Models\Tenants\Sale;
 use Livewire\Component;
 
 class Profile extends Component
@@ -10,13 +11,24 @@ class Profile extends Component
     public $customer, $locations;
 
 
-    public $sales;
+    public $sales = [], $debts = [];
 
 
     public function fetchSales()
     {
 
-        $this->sales = $this->customer->sales()->get();
+        if (empty($this->sales)) {
+            $this->sales = Sale::select('id', 'employee_id', 'invoice_number', 'status', 'invoice_date')->with('employee:id,name')
+                ->orderby('invoice_number', 'desc')
+                ->where('customer_id', '=', $this->customer->id)->get();
+        }
+    }
+
+    public function fetchDebts()
+    {
+        if (empty($this->debts)) {
+            $this->debts = $this->customer->debts()->with('sale:id,invoice_number')->get();
+        }
     }
     public function render()
     {

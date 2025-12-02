@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Tenants\PaymentMethod;
+use App\Models\Tenants\Customer;
 use App\Models\Tenants\Sale;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -13,12 +13,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('payments', function (Blueprint $table) {
+        Schema::create('debts', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Sale::class)->nullable()->constrained()->nullOnDelete();
-            $table->foreignIdFor(PaymentMethod::class)->nullable()->constrained()->nullOnDelete();
-            $table->decimal('paid_amount', 10, 2)->default(0);
-            $table->enum('payment_status', ['paid', 'unpaid', 'partially_paid'])->default('paid');
+            $table->foreignIdFor(Customer::class)->nullable()->constrained()->nullOnDelete();
+            $table->decimal('debt_amount', 10, 2)->nullable()->default(0);
+            $table->decimal('paid_amount', 10, 2)->nullable()->default(0);
+            $table->decimal('remaining_amount', 10, 2)->nullable()->default(0);
+            $table->enum('status', ['paid', 'unpaid', 'partially_paid']);
             $table->timestamps();
         });
     }
@@ -28,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('payments');
+        Schema::dropIfExists('debts');
     }
 };

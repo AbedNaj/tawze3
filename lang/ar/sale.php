@@ -1,6 +1,6 @@
 <?php
 
-use function PHPSTORM_META\map;
+
 
 return [
     'payment_method' => [
@@ -67,7 +67,7 @@ return [
         'no_employee_selected' => 'لم يتم اختيار موظف',
         'out_of_stock' => 'المنتج غير متوفر في المخزون',
         'complete_the_data' => 'يرجى إكمال البيانات',
-        'sale_details' => 'تفاصيل البيع',
+        'sale_details' => 'تفاصيل الفاتورة',
         'save_draft' => 'حفظ كمسودة',
         'preview_invoice' => 'معاينة الفاتورة',
         'delete_sale' => 'حذف الفاتورة',
@@ -82,8 +82,10 @@ return [
         'financial_summary'  => 'ملخص الحالة المالية',
         'payment_status' => 'حالة الدفع',
         'sold_products' => 'المنتجات المباعة',
-
+        'info' => 'معلومات الفاتورة',
+        'payments' => 'الدفعات',
         'notes' => 'الملاحظات',
+        'debts' => 'الديون',
         'no_notes_added' => 'لم تتم إضافة ملاحظات',
         'final_summary' => 'الملخص النهائي',
         'subtotal' => 'المجموع الفرعي',
@@ -99,6 +101,23 @@ return [
         'paid_amount' => 'المبلغ المدفوع',
         'paid_amount_placeholder' => 'المبللغ المدفوع لهذه الفاتورة',
         'sale_amount' => 'مبلغ الفاتورة',
+        'debt_amount' => 'مبلغ الدين',
+        'pay_debt' => 'دفع الدين',
+        'net_total' => 'الصافي',
+        'paid_progress' => ' نسبة الدفع',
+        'remaining' => 'المتبقي',
+        'debt' => 'الدين',
+        'fully_paid' => 'مدفوع بالكامل',
+        'no_action_needed' => 'لا حاجة لاتخاذ أي إجراء',
+        'payment_date' => 'تاريخ الدفع',
+        'no_invoice_number' => 'لا يوجد رقم فاتورة',
+        'show' => 'عرض الفاتورة',
+        'no_invoice_date' => 'لا يوجد تاريخ فاتورة',
+        'cancel_warning' => 'حذف الفاتورة سيؤدي إلى إلغاء جميع الديون و المدفوعات و المنتجات المرتبطة بها وإرجاع الكميات إلى المخزون. هل أنت متأكد من رغبتك في المتابعة؟',
+        'pay' => 'دفع',
+        'paid_successfully' => 'تم الدفع بنجاح',
+        'debt_amount_error' => 'المبلغ المدقوع أكبر من مبلغ الدين',
+
 
     ]
 

@@ -11,4 +11,14 @@ class Payment extends Model
     use HasFactory;
 
     protected $guarded = ['id'];
+
+    public function paymentMethod()
+    {
+
+        return $this->belongsTo(PaymentMethod::class);
+    }
+    public function sale()
+    {
+        return $this->belongsTo(Sale::class);
+    }
 }

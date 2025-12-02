@@ -4,13 +4,20 @@
                               <i class="fas fa-arrow-left  mx-2"></i>{{ __('sale.sale.back_to_sales') }}
                           </a>
                       </div>
+
                       @if ($sale->status == App\Enums\SaleStatusEnum::CONFIRMED->value)
                           <div class="space-x-4">
-                              <button wire:click='saleCancel'
-                                  class="px-6 py-3 border border-gray-300 hover:cursor-pointer text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium">
-                                  <i class="fas fa-trash mx-2"></i>{{ __('sale.sale.cancel_sale') }}
-                              </button>
-                              <button wire:click='saleDelete'
+                              <x-common.modal icon="trash" :title="__('sale.sale.cancel_sale')" saveWireClick="saleCancel"
+                                  :buttonLabel="__('sale.sale.cancel_sale')">
+
+                                  <p
+                                      class="text-sm text-red-500 leading-relaxed bg-red-50 dark:bg-red-900/20 p-3 rounded-md border border-red-200 dark:border-red-700">
+                                      {{ __('sale.sale.cancel_warning') }}
+                                  </p>
+                              </x-common.modal>
+
+
+                              <button
                                   class="px-6 py-3 bg-blue-600 hover:cursor-pointer text-white rounded-lg hover:bg-blue-700 transition-colors font-medium">
                                   <i class="fas fa-print mr-2"></i>
                                   {{ __('sale.sale.print_invoice') }}

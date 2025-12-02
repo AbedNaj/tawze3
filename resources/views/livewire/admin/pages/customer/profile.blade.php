@@ -50,27 +50,11 @@
 
         <div class="bg-white border-b shadow-sm">
             <div class="flex gap-1 px-6">
-                <button @click="activeTab = 'info'"
-                    :class="activeTab === 'info' ? 'border-b-2 border-blue-600 text-blue-600' :
-                        'text-gray-600 hover:text-gray-800'"
-                    class="px-6 py-4 font-medium transition flex items-center gap-2">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                    </svg>
-                    {{ __('customer.info') }}
-                </button>
 
-                <button wire:click='fetchSales' @click="activeTab = 'sales'"
-                    :class="activeTab === 'sales' ? 'border-b-2 border-blue-600 text-blue-600' :
-                        'text-gray-600 hover:text-gray-800'"
-                    class="px-6 py-4 font-medium transition flex items-center gap-2">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                    </svg>
-                    {{ __('customer.sales_history') }}
-                </button>
+                <x-admin.navbar-button tabName="info" :icon="view('components.icons.customers')" :label="__('customer.info')" />
+                <x-admin.navbar-button wireClick="fetchSales" tabName="sales" :icon="view('components.icons.clipboard')" :label="__('customer.sales_history')" />
+                <x-admin.navbar-button wireClick="fetchDebts" tabName="debts" :icon="view('components.icons.wallet')" :label="__('customer.debt_history')" />
+
             </div>
         </div>
 
@@ -187,63 +171,19 @@
 
             <div x-show="activeTab === 'sales'" class="p-8">
                 <div class="mb-6">
-                    <h3 class="text-xl font-bold text-gray-900 mb-2">{{ __('customer.sales_history') }}</h3>
-                    <p class="text-gray-600">{{ __('customer.view_all_sales') }}</p>
+                    @include('admin.partials.customer.sales-history')
                 </div>
-
-                @if (isset($sales) && $sales->count() > 0)
-                    <div class="space-y-4">
-                        @foreach ($sales as $sale)
-                            @php
-                                $saleStatus = App\Enums\SaleStatusEnum::tryFrom($sale->status);
-                            @endphp
-                            <div class="border border-gray-200 rounded-lg p-5 hover:shadow-md transition">
-                                <div class="flex items-center justify-between mb-3">
-                                    <div class="flex items-center gap-3">
-                                        <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                                            <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                                            </svg>
-                                        </div>
-                                        <div>
-                                            <p class="font-semibold text-gray-900">
-                                                {{ __('sale.sale.invoice_number') }}
-                                                #{{ $sale->invoice_number }}</p>
-                                            <p class="text-sm text-gray-500">
-                                                {{ $sale->created_at->format('Y-m-d') }}
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="text-left">
-                                        <p class="text-2xl font-bold text-gray-900">
-                                            {{ number_format($sale->price, 2) . ' : ' }}
-                                            {{ __('sale.sale.price') }}</p>
-                                        <span
-                                            class="inline-block px-3 py-1 text-xs font-medium rounded-full  bg-{{ $saleStatus->color() }}-100 text-{{ $saleStatus->color() }}-800">
-                                            {{ $saleStatus->label() }}
-                                        </span>
-                                    </div>
-                                </div>
-
-                                <x-button href="{{ route('admin.sales.show', ['sale' => $sale->id]) }}" wire:navigate
-                                    label="{{ __('common.show') }}"></x-button>
-                            </div>
-                        @endforeach
-                    </div>
-                @else
-                    <div class="text-center py-12">
-                        <svg class="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor"
-                            viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                        </svg>
-                        <h3 class="text-lg font-medium text-gray-900 mb-2">{{ __('customer.no_sales') }}</h3>
-                        <p class="text-gray-600">{{ __('customer.no_sales_message') }}</p>
-                    </div>
-                @endif
             </div>
 
+
+
+            <div x-show="activeTab === 'debts'" class="p-8">
+                <div class="mb-6">
+
+
+                    @include('admin.partials.customer.debt-history')
+
+
+                </div>
+            </div>
         </div>
-    </div>

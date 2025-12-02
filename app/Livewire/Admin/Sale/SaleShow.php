@@ -2,17 +2,22 @@
 
 namespace App\Livewire\Admin\Sale;
 
+use App\Enums\SalePaymentStatusEnum;
+use App\Events\Admin\Sale\SaleCreated;
 use Livewire\Component;
 
 use App\Enums\SaleStatusEnum;
+use App\Models\Tenants\Debt;
 use App\Models\Tenants\Employee;
 use App\Models\Tenants\EmployeeInventory;
 use App\Models\Tenants\Inventory;
+use App\Models\Tenants\Payment;
 use App\Models\Tenants\PaymentMethod;
 use App\Models\Tenants\Product;
 use App\Models\Tenants\ProductType;
 use App\Models\Tenants\Sale;
 use App\Models\Tenants\SaleItem;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 
@@ -37,6 +42,10 @@ class SaleShow extends Component
 
     public $paymentMethods = [], $paymentMethod, $paidAmount = 0;
     public $selectedProductType;
+
+    public $debtPaiedAmount;
+
+    public $payments = [];
     protected $rules = [
         'product' => 'required|integer|exists:products,id',
         'quantity' => 'nullable|numeric|min:1',
@@ -52,6 +61,7 @@ class SaleShow extends Component
 
     public function updatedInvoiceDate()
     {
+
         $this->validateOnly('invoiceDate');
         $this->sale->update([
             'invoice_date' => $this->invoiceDate,
@@ -79,6 +89,7 @@ class SaleShow extends Component
         $this->employeeName = Employee::where('id', '=',  $this->employee)->value('name');
     }
 
+
     public function UpdatedCustomer()
     {
 
@@ -103,6 +114,14 @@ class SaleShow extends Component
     }
 
 
+
+
+    public function fetchPayments()
+    {
+        $this->payments = Payment::select('id', 'sale_id', 'payment_method_id', 'paid_amount', 'created_at')
+            ->with('paymentMethod:id,name')
+            ->where('sale_id', $this->sale->id)->get();
+    }
     public function UpdatedSelectedProductType()
     {
 
@@ -116,6 +135,9 @@ class SaleShow extends Component
 
     public function saleConfirm()
     {
+
+
+
         $this->validate([
             'customer' => 'required|exists:customers,id',
             'paymentMethod' => 'required|integer|exists:payment_methods,id',
@@ -134,26 +156,26 @@ class SaleShow extends Component
         }
 
 
-        foreach ($this->saleItems as $saleItem) {
+        DB::transaction(function () {
 
-            $inventory = Inventory::where('product_id', $saleItem['product_id'])
-                ->lockForUpdate()
-                ->firstOrFail();
+            $this->sale->update(
+                [
+                    'status' => SaleStatusEnum::CONFIRMED,
+                    'total_paid' => $this->paidAmount,
+                    'price' => $this->total,
+                ]
+            );
 
-            $inventory->quantity -= $saleItem['stock'];
+            event(new SaleCreated(
+                $this->sale,
+                $this->paymentMethod,
+                $this->paidAmount,
+                $this->saleItems,
+                $this->employee
+            ));
+        });
 
-            $inventory->save();
-        }
 
-
-        $this->sale->update(
-            [
-                'status' => SaleStatusEnum::CONFIRMED,
-                'payment_method_id' => $this->paymentMethod,
-                'total_paid' => $this->paidAmount,
-                'price' => $this->total,
-            ]
-        );
 
         $this->dispatch(
             'notify',
@@ -318,25 +340,64 @@ class SaleShow extends Component
             $this->fetchSaleItems();
         }
     }
-    public function saleDelete()
+    public function debtPay()
     {
 
-        $this->sale->delete();
+        $this->validate([
+            'debtPaiedAmount' => 'required|numeric|min:0',
+            'paymentMethod' => 'required|integer|exists:payment_methods,id',
+        ]);
 
-        $this->dispatch(
-            'notify',
-            type: 'success',
-            message: __('sale.sale.delete_sale')
-        );
+        if ($this->debtPaiedAmount > ($this->sale->debt->remaining_amount)) {
+            throw ValidationException::withMessages(['debtPaiedAmount' => __('sale.sale.debt_amount_error')]);
+        }
+        if ($this->debtPaiedAmount > 0) {
 
-        return redirect()->route('admin.sales.index');
+            DB::transaction(function () {
+
+                $payment = Payment::create([
+                    'sale_id' => $this->sale->id,
+                    'payment_method_id' => $this->paymentMethod,
+                    'paid_amount' => $this->debtPaiedAmount,
+                ]);
+
+                $debt = Debt::where('sale_id', $this->sale->id)->first();
+                $debt->paid_amount += $this->debtPaiedAmount;
+                $debt->remaining_amount -= $this->debtPaiedAmount;
+                $debt->save();
+
+                $this->sale->total_paid += $this->debtPaiedAmount;
+                $this->sale->save();
+            });
+
+            $this->dispatch(
+                'notify',
+                type: 'success',
+                message: __('sale.sale.paid_successfully')
+            );
+
+            $this->fetchPayments();
+        }
     }
 
     public function saleCancel()
     {
 
+        DB::transaction(function () {
 
-        $this->sale->update(['status' => SaleStatusEnum::CANCELLED]);
+            $this->sale->update([
+                'status' => SaleStatusEnum::CANCELLED,
+                'total_paid' => 0,
+                'price' => 0,
+                'payment_status' => SalePaymentStatusEnum::Unpaid->value,
+
+            ]);
+
+            $this->sale->items()->delete();
+            $this->sale->payments()->delete();
+            $this->sale->debt()->delete();
+        });
+
 
         $this->dispatch(
             'notify',

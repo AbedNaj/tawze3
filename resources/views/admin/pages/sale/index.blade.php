@@ -10,8 +10,8 @@
 
     </div>
     <livewire:admin.common.table :allowSearch="false" listener="added" model="App\Models\Tenants\Sale" :columns="[
-        ['field' => 'invoice_number', 'label' => __('sale.sale.invoice_number')],
         ['field' => 'invoice_date', 'label' => __('sale.sale.invoice_date')],
+        ['field' => 'invoice_number', 'label' => __('sale.sale.invoice_number')],
         ['field' => 'employee.name', 'label' => __('sale.sale.employee_name')],
         ['field' => 'customer.name', 'label' => __('sale.sale.customer_name')],
         ['field' => 'user.name', 'label' => __('sale.sale.created_by')],

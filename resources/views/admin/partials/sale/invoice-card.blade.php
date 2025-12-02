@@ -14,9 +14,9 @@
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">
                 {{ __('sale.sale.invoice_date') }}</label>
-            <input type="date"
+            <input type="datetime-local"
                 class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                x-model="invoiceDate">
+                wire:model.live='invoiceDate'>
         </div>
     </div>
 </x-admin.sale.card>

@@ -77,7 +77,7 @@
     @elseif (
         $sale->status == App\Enums\SaleStatusEnum::CONFIRMED->value ||
             $sale->status == App\Enums\SaleStatusEnum::CANCELLED->value)
-        <div class="container mx-auto px-4 py-8">
+        <div class="container mx-auto px-4 py-8" x-data="{ activeTab: 'info' }">
 
             <div class="mb-8 flex flex-col lg:flex-row justify-between items-start lg:items-center">
                 <div>
@@ -92,9 +92,20 @@
                     <x-admin.sale.status-badegt color="{{ $color }}" label="{{ $label }}" />
 
                 </div>
+
+
             </div>
 
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+            <div class="bg-white border-b shadow-sm">
+                <div class="flex gap-1 px-6">
+
+                    <x-admin.navbar-button :icon="view('components.icons.info')" tabName="info" :label="__('sale.sale.info')" />
+                    <x-admin.navbar-button wireClick="fetchPayments" :icon="view('components.icons.payment')" tabName="payments"
+                        :label="__('sale.sale.payments')" />
+
+                </div>
+            </div>
+            <div x-show="activeTab === 'info'" class="bg-white rounded-xl shadow-lg overflow-hidden">
                 <div class="p-6 lg:p-8">
 
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
@@ -109,7 +120,7 @@
                     @include('admin.partials.sale.show.sale-table')
 
 
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+                    <div class="">
                         @include('admin.partials.sale.show.summery')
 
                     </div>
@@ -121,6 +132,16 @@
                         @include('admin.partials.sale.show.buttons')
                     </div>
                 </div>
+
+            </div>
+
+
+            <div x-show="activeTab === 'payments'" class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="p-6 lg:p-8">
+                    @include('admin.partials.sale.show.payment-table')
+
+                </div>
+
             </div>
         </div>
     @endif

@@ -20,7 +20,6 @@ return new class extends Migration
             $table->foreignIdFor(Employee::class)->nullable()->constrained()->nullOnDelete();
             $table->foreignIdFor(Customer::class)->nullable()->constrained()->nullOnDelete();
             $table->foreignIdFor(User::class)->nullable()->constrained()->nullOnDelete();
-            $table->foreignIdFor(PaymentMethod::class)->nullable()->constrained()->nullOnDelete();
             $table->string('invoice_number');
             $table->decimal('price', 10, 2)->default(0);
             $table->enum('status', ['draft', 'confirmed', 'cancelled'])->default('draft');

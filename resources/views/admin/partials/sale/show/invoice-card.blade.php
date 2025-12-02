@@ -1,6 +1,6 @@
                      <x-admin.sale.card>
                          <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
-                             <i class="fas fa-info-circle mr-2 text-blue-600"></i>
+                             <i class="fas fa-info-circle mx-2 text-blue-600"></i>
                              {{ __('sale.sale.invoice_details') }}
                          </h3>
                          <div class="space-y-3">
