@@ -16,7 +16,7 @@
                     {{ $employeeUser->employee->name }}</h2>
 
                 <dl class="space-y-2">
-                    <x-admin.read-only-field :label="__('employee.user_name')" :value="$employeeUser->user_name" />
+                    <x-admin.read-only-field :label="__('employee.user_name')" :value="$employeeUser->email" />
 
                 </dl>
 
@@ -38,7 +38,7 @@
                     @csrf
                     @method('PATCH')
 
-                    <x-admin.form.input name="user_name" :label="__('employee.user_name')" :value="$employeeUser->user_name" />
+                    <x-admin.form.input name="user_name" :label="__('employee.user_name')" :value="$employeeUser->email" />
 
                     <div class="flex items-center gap-4">
 

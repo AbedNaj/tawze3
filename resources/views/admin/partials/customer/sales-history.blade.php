@@ -1,7 +1,7 @@
 <div class="mb-8">
     <h3 class="text-xl font-semibold text-gray-800 mb-6 flex items-center">
 
-        {{ __('customer.debt_history') }}
+        {{ __('customer.sales_history') }}
     </h3>
 
     <div class="overflow-x-auto bg-white rounded-lg border border-gray-200 shadow-sm ">

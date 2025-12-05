@@ -22,7 +22,9 @@ return [
     'select_employee_sub_message' => 'يرجى اختيار موظف من القائمة',
     'product_name' => 'إسم المنتج',
     'quantity' => 'الكمية',
-
+    'info' => 'معلومات الموظف',
+    'sales' => 'مبيعات الموظف',
+    'sales_history' => 'تاريخ مبيعات الموظف',
     'inventory' => [
         'status' => [
             'in_stock'  => 'متوفر',

@@ -69,35 +69,12 @@
                             <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-4">
                                 {{ __('customer.basic_info') }}</h3>
                             <div class="space-y-4">
-                                <div class="flex items-start gap-3 p-4 bg-gray-50 rounded-lg">
-                                    <div
-                                        class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                                        <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor"
-                                            viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                                        </svg>
-                                    </div>
-                                    <div class="flex-1">
-                                        <p class="text-sm text-gray-500">{{ __('customer.name') }}</p>
-                                        <p class="text-lg font-semibold text-gray-900">{{ $customer->name }}</p>
-                                    </div>
-                                </div>
+                                <x-common.readonly-show :icon="view('components.icons.customers')" :label="__('customer.name')" :data="$customer->name"
+                                    color="blue" />
 
-                                <div class="flex items-start gap-3 p-4 bg-gray-50 rounded-lg">
-                                    <div
-                                        class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                                        <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor"
-                                            viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                                        </svg>
-                                    </div>
-                                    <div class="flex-1">
-                                        <p class="text-sm text-gray-500">{{ __('customer.phone') }}</p>
-                                        <p class="text-lg font-semibold text-gray-900">{{ $customer->phone }}</p>
-                                    </div>
-                                </div>
+                                <x-common.readonly-show :icon="view('components.icons.phone')" :label="__('customer.phone')" :data="$customer->phone"
+                                    color="green" />
+
                             </div>
                         </div>
                     </div>
@@ -107,38 +84,14 @@
                             <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-4">
                                 {{ __('customer.location_info') }}</h3>
                             <div class="space-y-4">
-                                <div class="flex items-start gap-3 p-4 bg-gray-50 rounded-lg">
-                                    <div
-                                        class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                                        <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor"
-                                            viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                                        </svg>
-                                    </div>
-                                    <div class="flex-1">
-                                        <p class="text-sm text-gray-500">{{ __('customer.city') }}</p>
-                                        <p class="text-lg font-semibold text-gray-900">{{ $customer->location->name }}
-                                        </p>
-                                    </div>
-                                </div>
 
-                                <div class="flex items-start gap-3 p-4 bg-gray-50 rounded-lg">
-                                    <div
-                                        class="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                                        <svg class="w-5 h-5 text-orange-600" fill="none" stroke="currentColor"
-                                            viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                                        </svg>
-                                    </div>
-                                    <div class="flex-1">
-                                        <p class="text-sm text-gray-500">{{ __('customer.address') }}</p>
-                                        <p class="text-lg font-semibold text-gray-900">{{ $customer->address }}</p>
-                                    </div>
-                                </div>
+
+                                <x-common.readonly-show :icon="view('components.icons.location')" :label="__('customer.city')" :data="$customer->location->name"
+                                    color="purple" />
+                                <x-common.readonly-show :icon="view('components.icons.home')" :label="__('customer.address')" :data="$customer->address"
+                                    color="orange" />
+
+
                             </div>
                         </div>
                     </div>

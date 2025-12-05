@@ -4,11 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\Admin\Employee\StoreEmployeeRequest;
 
-use App\Models\Tenants\EmployeeUser;
+
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Employee\UpdateEmployeeUserRequest;
+use App\Models\Tenants\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -41,10 +42,11 @@ class EmployeeUserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(EmployeeUser $employeeUser)
+    public function show(User $employeeUser)
     {
 
-        $employeeUser->load('employee:employee_user_id,name');
+
+        $employeeUser->load('employee:user_id,name');
 
         return view('admin.pages.employeeUser.show', ['employeeUser' => $employeeUser]);
     }
@@ -52,7 +54,7 @@ class EmployeeUserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(EmployeeUser $employeeUser)
+    public function edit(User $employeeUser)
     {
         //
     }
@@ -60,12 +62,12 @@ class EmployeeUserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateEmployeeUserRequest $request, EmployeeUser $employeeUser)
+    public function update(UpdateEmployeeUserRequest $request, User $employeeUser)
     {
         $validated = $request->validated();
 
         $employeeUser->fill(
-            ['user_name' => $validated['user_name']]
+            ['email' => $validated['user_name']]
         );
 
         if ($employeeUser->isDirty()) {
@@ -75,7 +77,7 @@ class EmployeeUserController extends Controller
         }
         return back()->with('info', 'لم يتم إجراء أي تعديل');
     }
-    public function updatePassword(Request $request, EmployeeUser $employeeUser)
+    public function updatePassword(Request $request, User $employeeUser)
     {
         $validated = $request->validate(
             [
@@ -93,7 +95,7 @@ class EmployeeUserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(EmployeeUser $employeeUser)
+    public function destroy(User $employeeUser)
     {
         //
     }
