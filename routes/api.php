@@ -24,5 +24,9 @@ Route::middleware(
 
     Route::prefix('v1')->name('api.v1.')->group(function () {
         Route::get('/customers', [\App\Http\Controllers\Api\V1\Customers\CustomersController::class, '__invoke'])->name('customers');
+
+        Route::get('/employees', [\App\Http\Controllers\Api\V1\Employees\EmployeeController::class, '__invoke'])->name('employees');
+
+        Route::get('/locations', [\App\Http\Controllers\Api\V1\Locations\LocationController::class, '__invoke'])->name('locations');
     });
 });

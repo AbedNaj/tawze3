@@ -7,17 +7,18 @@
             @csrf
             @method('POST')
 
-            <x-admin.form.input name="name" :label="__('customer.name')" />
+            <x-input name="name" :label="__('customer.name')" />
 
-            <x-admin.form.input name="phone" :label="__('customer.phone')" />
-            <x-admin.form.select name="location_id" :label="__('customer.city')" :options="$locations" />
-            <x-admin.form.input name="address" :label="__('customer.address')" />
+            <x-input name="phone" :label="__('customer.phone')" />
+
+            <x-select name="location" :label="__('customer.city')" :async-data="route('api.v1.locations')" option-label="name" option-value="id" />
+
+            <x-input name="address" :label="__('customer.address')" />
 
             <div>
-                <x-admin.form.button>
-                    {{ __('employee.add_new') }}
-                </x-admin.form.button>
+                <x-button type="submit" :label="__('employee.add_new')" />
             </div>
         </form>
+
     </x-admin.form.template>
 @endsection

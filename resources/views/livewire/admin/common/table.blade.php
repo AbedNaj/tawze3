@@ -42,7 +42,7 @@
                         @endforeach
                         <th
                             class="px-6 py-4 text-center text-slate-600 font-semibold border-b border-slate-200/70 whitespace-nowrap">
-                            الإجرائات
+                            {{ __('common.show') }}
                         </th>
                     </tr>
                 </thead>
@@ -88,7 +88,7 @@
                                             d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
                                         </path>
                                     </svg>
-                                    عرض
+                                    {{ __('common.show') }}
                                 </a>
                             </td>
                         </tr>
@@ -105,8 +105,8 @@
                                         </svg>
                                     </div>
                                     <div class="text-center">
-                                        <h3 class="text-lg font-medium text-slate-600">لا توجد بيانات</h3>
-                                        <p class="text-slate-500 mt-1">لا توجد بيانات متاحة حاليًا للعرض</p>
+                                        <h3 class="text-lg font-medium text-slate-600">{{ __('common.no_data') }} </h3>
+                                        <p class="text-slate-500 mt-1"> {{ __('common.no_data_found') }} </p>
                                     </div>
                                 </div>
                             </td>
@@ -166,7 +166,7 @@
                                         d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
                                     </path>
                                 </svg>
-                                عرض التفاصيل
+                                {{ __('common.show') }}
                             </a>
                         </div>
                     </div>
@@ -182,8 +182,8 @@
                                 </svg>
                             </div>
                             <div class="text-center">
-                                <h3 class="text-lg font-medium text-slate-600">لا توجد بيانات</h3>
-                                <p class="text-slate-500 mt-1">لا توجد بيانات متاحة حاليًا للعرض</p>
+                                <h3 class="text-lg font-medium text-slate-600">{{ __('common.no_data') }} </h3>
+                                <p class="text-slate-500 mt-1"> {{ __('common.no_data_found') }} </p>
                             </div>
                         </div>
                     </div>

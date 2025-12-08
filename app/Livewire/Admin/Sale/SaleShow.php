@@ -125,7 +125,7 @@ class SaleShow extends Component
     public function UpdatedSelectedProductType()
     {
 
-        $this->products = Product::where('product_type_id', '=', $this->selectedProductType)->pluck('name', 'id');
+        $this->products = Product::select('name', 'id')->where('product_type_id', '=', $this->selectedProductType)->get();
     }
     public function updatedProduct()
     {
@@ -330,6 +330,9 @@ class SaleShow extends Component
     }
     public function fetchSaleData()
     {
+        $this->productTypes = ProductType::select('id', 'name')->get();
+
+
 
         if ($this->sale->status == SaleStatusEnum::DRAFT->value) {
             $this->customer = $this->sale->customer_id;
@@ -407,9 +410,21 @@ class SaleShow extends Component
 
         return redirect()->route('admin.sales.show', ['sale' => $this->sale->id]);
     }
+    public function saleDelete()
+    {
 
+        DB::transaction(function () {
+
+            $this->sale->items()->delete();
+            $this->sale->payments()->delete();
+            $this->sale->debt()->delete();
+            $this->sale->delete();
+            return redirect()->route('admin.sales.index')->with('success', __('sale.sale.deleted_successfully'));
+        });
+    }
     public function mount()
     {
+
         $this->fetchSaleData();
     }
     public function render()

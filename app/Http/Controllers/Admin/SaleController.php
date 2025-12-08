@@ -32,7 +32,7 @@ class SaleController extends Controller
 
         $employees = Employee::pluck('name', 'id');
         $customers = Customer::pluck('name', 'id');
-        $productTypes = ProductType::pluck('name', 'id');
+        $productTypes = ProductType::select('id', 'name')->get();
 
         if ($lastSale && $lastSale['status'] === SaleStatusEnum::DRAFT->value) {
 
@@ -40,7 +40,7 @@ class SaleController extends Controller
                 'sale' => $lastSale,
                 'employees' => $employees,
                 'customers' => $customers,
-                'productTypes' => $productTypes,
+
             ]);
         } else {
             $sale = Sale::create([

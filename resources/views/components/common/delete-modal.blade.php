@@ -2,7 +2,7 @@
       'buttonLabel' => __('common.delete'),
       'title' => __('common.delete'),
       'description' => __('common.delete_warning'),
-      'route' => route('admin.dashboard'),
+      'route' => '',
       'livewireClick' => '',
       'buttonSize' => 'md',
   ])
@@ -27,14 +27,19 @@
 
           <x-slot name="footer" class="flex justify-between gap-x-4">
               <div class="flex items-center gap-2">
-
-                  <form action={{ $route }} method="post">
-                      @method('DELETE')
-                      @csrf
+                  @if ($livewireClick)
                       <x-button wire:click='{{ $livewireClick }}' icon="trash" type="submit" negative
                           label="{{ $buttonLabel }}" />
+                  @else
+                      <form action={{ $route }} method="post">
+                          @method('DELETE')
+                          @csrf
+                          <x-button icon="trash" type="submit" negative label="{{ $buttonLabel }}" />
 
-                  </form>
+                      </form>
+                  @endif
+
+
 
 
 

@@ -9,7 +9,7 @@
                             placeholder="{{ __('common.select') }}" :async-data="route('api.v1.customers')" option-label="name"
                             option-value="id" />
 
-                        <x-admin.sale.button
-                            :href="route('admin.customers.create')">{{ __('sale.sale.add_new_customer') }}</x-admin.sale.button>
+
+                        <x-button wire:navigate icon="plus" :label="__('sale.sale.add_new_customer')" :href="route('admin.customers.create')"></x-button>
                     </div>
                 </x-admin.sale.card>

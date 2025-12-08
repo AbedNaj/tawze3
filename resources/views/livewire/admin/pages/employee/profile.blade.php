@@ -95,23 +95,22 @@
 
                 <div class="bg-white p-6 rounded-lg shadow">
                     <h2 class="text-lg font-semibold mb-4"> {{ __('common.edit') }}</h2>
-
                     <form action="{{ route('admin.employees.update', [$employee->id]) }}" method="POST"
                         class="space-y-4">
                         @csrf
                         @method('PATCH')
 
-                        <x-admin.form.input name="name" :label="__('employee.name')" :value="$employee->name" />
-                        <x-admin.form.input name="phone" :label="__('employee.phone')" :value="$employee->phone" />
+                        <x-input name="name" :label="__('employee.name')" :value="$employee->name" />
+
+                        <x-input name="phone" :label="__('employee.phone')" :value="$employee->phone" />
+
                         <div class="flex items-center gap-4">
-
-                            <x-admin.form.button>{{ __('inventory.save') }}</x-admin.form.button>
-
-                            <x-admin.buttons.cancel click="editing = false"></x-admin.buttons.cancel>
-
-
+                            <x-button primary type="submit" :label="__('inventory.save')" />
+                            <x-button type="button" @click="editing = false" :label="__('common.cancel')" />
                         </div>
+
                     </form>
+
 
                 </div>
             </div>

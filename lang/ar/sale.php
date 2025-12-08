@@ -117,7 +117,7 @@ return [
         'pay' => 'دفع',
         'paid_successfully' => 'تم الدفع بنجاح',
         'debt_amount_error' => 'المبلغ المدقوع أكبر من مبلغ الدين',
-
+        'deleted_successfully' => 'تم حذف الفاتورة بنجاح',
 
     ]
 

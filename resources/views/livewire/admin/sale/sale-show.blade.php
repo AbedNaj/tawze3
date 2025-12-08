@@ -36,7 +36,6 @@
                     </div>
 
 
-                    @include('admin.partials.sale.add-product')
 
                     @include('admin.partials.sale.sale-table')
 

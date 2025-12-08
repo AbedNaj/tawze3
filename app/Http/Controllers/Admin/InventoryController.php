@@ -89,12 +89,8 @@ class InventoryController extends Controller
     }
     public function transfer()
     {
-        $employees = Employee::pluck('name', 'id');
-        $productTypes = ProductType::pluck('name', 'id');
-        return view('admin.pages.inventory.transfer', [
-            'employees' => $employees,
-            'productTypes' => $productTypes
-        ]);
+
+        return view('admin.pages.inventory.transfer');
     }
 
 

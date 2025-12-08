@@ -21,5 +21,12 @@ return [
     'show_inventory' => 'عرض المخزون',
     'save' => 'حفظ',
     'submit' => 'إرسال',
+    'deleted_successfully' => 'تم حذف المنتج بنجاح',
+    'edited_successfully' => 'تم تعديل المنتج بنجاح',
+    'created_successfully' => 'تم إنشاء المنتج بنجاح',
+    'add_new_product_type' => 'إضافة نوع منتج جديد',
+    'product_type_name' => 'اسم نوع المنتج',
+    'product_types' => 'أنواع المنتجات',
+    'prodtct_type' => 'نوع المنتج',
 
 ];

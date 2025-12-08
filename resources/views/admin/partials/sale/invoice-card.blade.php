@@ -5,11 +5,7 @@
     </h3>
     <div class="space-y-3">
         <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">
-                {{ __('sale.sale.invoice_number') }}</label>
-            <input type="text"
-                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                value="{{ $sale->invoice_number }}" readonly>
+            <x-input :label="__('sale.sale.invoice_number')" :value="$sale->invoice_number" readonly />
         </div>
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">
@@ -17,6 +13,8 @@
             <input type="datetime-local"
                 class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 wire:model.live='invoiceDate'>
+
+
         </div>
     </div>
 </x-admin.sale.card>

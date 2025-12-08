@@ -7,6 +7,7 @@ use App\Models\Tenants\Product;
 use App\Http\Requests\Admin\Product\StoreProductRequest;
 use App\Http\Requests\Admin\Product\UpdateProductRequest;
 use App\Models\Tenants\ProductType;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -22,7 +23,7 @@ class ProductController extends Controller
     public function create()
     {
 
-        $productTypes = ProductType::pluck('name', 'id');
+        $productTypes = ProductType::select('name', 'id')->get();
 
 
         return view('admin.pages.product.create', [
@@ -66,7 +67,8 @@ class ProductController extends Controller
             'inventory:id,product_id,quantity'
         ]);
 
-        $productTypes = ProductType::pluck('name', 'id');
+        $productTypes = ProductType::select('name', 'id')->get();
+
         return view('admin.pages.product.show', [
             'product' => $product,
             'productTypes' => $productTypes
@@ -86,6 +88,7 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, Product $product)
     {
+
         $validated = $request->validated();
 
         $product->fill(
@@ -98,9 +101,9 @@ class ProductController extends Controller
 
         if ($product->isDirty()) {
             $product->save();
-            return back()->with('status', 'تم التعديل بنجاح');
+            return back()->with('status', __('common.edit_successful'));
         }
-        return back()->with('info', 'لم يتم إجراء أي تعديل');
+        return back()->with('info', __('common.edit_unsccessful'));
     }
 
     /**
@@ -108,7 +111,12 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        DB::transaction(function () use ($product) {
+            $product->delete();
+            $product->inventory()->delete();
+        });
+
+        return redirect()->route('admin.products.index')->with('status', __('product.deleted_successfully'));
     }
 
     public function productEntry()

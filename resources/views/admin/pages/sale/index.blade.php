@@ -3,7 +3,10 @@
 @section('content')
     <section class="p-6 border-b border-slate-200 bg-gradient-to-r from-slate-50 to-slate-100">
 
-        <x-admin.button href="{{ route('admin.sales.create') }}">{{ __('sale.sale.add') }}</x-admin.button>
+
+
+        <x-button icon="plus" wire:navigate lg :label="__('sale.sale.add')" href="{{ route('admin.sales.create') }}" />
+
     </section>
     <div class="px-2 py-4 ">
         @livewire('admin.filters.sale-filters')

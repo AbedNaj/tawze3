@@ -2,7 +2,8 @@
 
 @section('content')
     <section class="p-6 border-b border-slate-200 bg-gradient-to-r from-slate-50 to-slate-100">
-        <x-admin.button href="{{ route('admin.employees.create') }}">{{ __('employee.add') }}</x-admin.button>
+
+        <x-button icon="plus" wire:navigate lg :label="__('employee.add')" href="{{ route('admin.employees.create') }}" />
 
     </section>
 

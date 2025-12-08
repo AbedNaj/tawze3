@@ -1,14 +1,14 @@
 @extends('admin.layout.default')
 
 @section('content')
-    <x-admin.form.template title="إضافة نوع منتج جديد">
+    <x-admin.form.template :title="__('product.add_new_product_type')">
 
         <form method="post" action="{{ route('admin.product-types.store') }}" class="space-y-6">
             @csrf
             @method('POST')
 
 
-            <x-admin.form.input name="name" label="إسم نوع المنتج" />
+            <x-input name="name" :label="__('product.product_type_name')" />
 
 
 
@@ -16,8 +16,8 @@
 
 
             <div>
-                <x-admin.form.button>
-                    إضافه </x-admin.form.button>
+                <x-button :label="__('common.add')" type="submit">
+                </x-button>
             </div>
         </form>
     </x-admin.form.template>

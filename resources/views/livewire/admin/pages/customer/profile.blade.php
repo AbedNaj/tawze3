@@ -106,23 +106,30 @@
                     @method('PATCH')
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <x-admin.form.input name="name" :label="__('customer.name')" :value="$customer->name" />
-                        <x-admin.form.input name="phone" :label="__('customer.phone')" :value="$customer->phone" />
-                        <x-admin.form.select name="location_id" :label="__('customer.location')" :value="$customer->location_id"
-                            :options="$locations" />
-                        <x-admin.form.input name="address" :label="__('customer.address')" :value="$customer->address" />
+
+                        <x-input name="name" :label="__('customer.name')" :value="$customer->name" />
+
+                        <x-input name="phone" :label="__('customer.phone')" :value="$customer->phone" />
+
+
+                        <x-select name="location" :label="__('customer.city')" :async-data="route('api.v1.locations')" option-label="name"
+                            option-value="id" />
+
+                        <x-input name="address" :label="__('customer.address')" :value="$customer->address" />
+
                     </div>
 
                     <div class="flex items-center gap-4 pt-4 border-t">
-
-                        <x-button type="submit" right-icon="check" lg @click="editing = false" :label="__('common.save')" />
-                        <x-button secondary lg @click="editing = false" :label="__('common.cancel')" />
+                        <x-button type="submit" right-icon="check" lg :label="__('common.save')" />
+                        <x-button secondary lg :label="__('common.cancel')" @click="editing = false" />
                     </div>
+
                 </form>
+
             </div>
 
 
-            <div x-show="activeTab === 'sales'" class="p-8">
+            <div x-cloak x-show="activeTab === 'sales'" class="p-8">
                 <div class="mb-6">
                     @include('admin.partials.customer.sales-history')
                 </div>
@@ -130,7 +137,7 @@
 
 
 
-            <div x-show="activeTab === 'debts'" class="p-8">
+            <div x-cloak x-show="activeTab === 'debts'" class="p-8">
                 <div class="mb-6">
 
 

@@ -8,12 +8,12 @@
             @method('POST')
 
 
-            <x-admin.form.input name="name" :label="__('sale.payment_method.name')" />
+            <x-input name="name" :label="__('sale.payment_method.name')" />
 
             <div>
-                <x-admin.form.button>
-                    {{ __('employee.add_new') }}
-                </x-admin.form.button>
+                <x-button type="submit" :label="__('employee.add_new')">
+
+                </x-button>
             </div>
         </form>
     </x-admin.form.template>

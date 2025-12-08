@@ -7,22 +7,23 @@
             @csrf
             @method('POST')
 
+            <x-input name="name" :label="__('product.name')" />
 
-            <x-admin.form.input name="name" :label="__('product.name')" />
+            <x-select name="product_type_id" :label="__('product.product_type')" :options="$productTypes" option-label="name" option-value="id"
+                :placeholder="__('common.select')" :value="$product->product_type_id ?? ''" />
 
+            <x-input name="price" type="number" :label="__('product.price')" />
 
+            <x-input name="quantity" type="number" :label="__('product.quantity')" />
 
-            <x-admin.form.select name="product_type_id" :label="__('product.product_type')" :options="$productTypes" :value="$product->product_type_id ?? ''" />
+            <x-input name="min_stock_alert" type="number" :label="__('product.min_stock_alert')" />
 
-            <x-admin.form.input name="price" type="number" :label="__('product.price')" />
-            <x-admin.form.input name="quantity" type="number" :label="__('product.quantity')" />
-            <x-admin.form.input name="min_stock_alert" type="number" :label="__('product.min_stock_alert')" />
-            <x-admin.form.input name="qr_code" value="{{ request()->input('qr_code') ?? '' }}" type="hidden" />
+            <x-input name="qr_code" type="hidden" :value="request()->input('qr_code') ?? ''" />
+
             <div>
-                <x-admin.form.button>
-                    إضافه
-                </x-admin.form.button>
+                <x-button primary type="submit" :label="__('product.add_new')" />
             </div>
+
         </form>
     </x-admin.form.template>
 @endsection

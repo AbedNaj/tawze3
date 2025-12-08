@@ -7,14 +7,12 @@
             @csrf
             @method('POST')
 
-
-            <x-admin.form.input name="name" :label="__('location.name')" />
+            <x-input name="name" :label="__('location.name')" />
 
             <div>
-                <x-admin.form.button>
-                    {{ __('employee.add_new') }}
-                </x-admin.form.button>
+                <x-button type="submit" :label="__('employee.add_new')" />
             </div>
         </form>
+
     </x-admin.form.template>
 @endsection

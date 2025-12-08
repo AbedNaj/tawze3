@@ -2,10 +2,10 @@
 
 @section('content')
     <section class="p-6 border-b border-slate-200 bg-gradient-to-r from-slate-50 to-slate-100">
-        <x-admin.button
-            href="{{ route('admin.products.product-entry-method') }}">{{ __('product.add_new') }}</x-admin.button>
 
 
+        <x-button icon="plus" wire:navigate lg href="{{ route('admin.products.product-entry-method') }}"
+            :label="__('product.add_new')"></x-button>
 
     </section>
     <div class="px-2 py-4 space-x-2">

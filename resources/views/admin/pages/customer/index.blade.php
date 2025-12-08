@@ -3,7 +3,7 @@
 @section('content')
     <section class="p-6 border-b border-slate-200 bg-gradient-to-r from-slate-50 to-slate-100">
 
-        <x-admin.button href="{{ route('admin.customers.create') }}">{{ __('customer.add') }}</x-admin.button>
+        <x-button lg icon="plus" :label="__('customer.add')" href="{{ route('admin.customers.create') }}"></x-button>
 
     </section>
 

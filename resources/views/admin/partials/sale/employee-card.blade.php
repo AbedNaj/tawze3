@@ -7,14 +7,18 @@
                    <div class="space-y-3">
                        <div class="flex items-center mb-3">
                            <input wire:model.live='isForEmployee' type="checkbox" id="forEmployee"
-                               class="mr-2 text-green-600 focus:ring-green-500" x-model="isForEmployee">
+                               class="mx-2 text-green-600 focus:ring-green-500" x-model="isForEmployee">
                            <label for="forEmployee" class="text-sm font-medium text-gray-700">
                                {{ __('sale.sale.invoice_for_employee') }}
                            </label>
                        </div>
                        <div x-show="isForEmployee" x-cloak x-transition>
-                           <x-admin.sale.select name="employee" :options="$employees"
-                               :label="__('sale.sale.select_emplyee')"></x-admin.sale.select>
+
+
+                           <x-select wire:model.live='employee' name="employee"
+                               label="{{ __('sale.sale.select_emplyee') }}" placeholder="{{ __('common.select') }}"
+                               :async-data="route('api.v1.employees')" option-label="name" option-value="id" />
+
                        </div>
                        <div x-show="!isForEmployee" x-transition>
                            <p class="text-sm text-gray-500 italic">

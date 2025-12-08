@@ -9,10 +9,7 @@
 
         </div>
 
-        @livewire('admin.pages.inventory.transfer-pick', [
-            'employees' => $employees,
-            'productTypes' => $productTypes,
-        ])
+        @livewire('admin.pages.inventory.transfer-pick')
 
     </div>
 @endsection

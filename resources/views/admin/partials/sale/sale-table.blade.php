@@ -3,12 +3,8 @@
         <h3 class="text-xl font-semibold text-gray-800 mb-4 lg:mb-0 flex items-center">
             <i class="fas fa-shopping-cart mr-2 text-orange-600"></i> {{ __('sale.sale.products') }}
         </h3>
-        <button type="button"
-            class="px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 hover:cursor-pointer text-white rounded-lg hover:from-cyan-600 hover:to-blue-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 font-medium"
-            @click="addProduct = true">
-            <i class="fas fa-plus mr-2"></i>
-            {{ __('sale.sale.add_product') }}
-        </button>
+
+        @include('admin.partials.sale.add-product')
     </div>
 
 

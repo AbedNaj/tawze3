@@ -24,10 +24,7 @@ class CustomerController extends Controller
     public function create()
     {
 
-        $locations = Location::orderByRaw('name')->pluck('name', 'id');
-        return view('admin.pages.customer.create', [
-            'locations' => $locations
-        ]);
+        return view('admin.pages.customer.create');
     }
 
     /**
@@ -41,7 +38,7 @@ class CustomerController extends Controller
             [
                 'name' => $validated['name'],
                 'phone' => $validated['phone'],
-                'location_id' => $validated['location_id'],
+                'location_id' => $validated['location'],
                 'address' => $validated['address']
             ]
         );
@@ -84,7 +81,7 @@ class CustomerController extends Controller
             [
                 'name' => $validated['name'],
                 'phone' => $validated['phone'],
-                'location_id' => $validated['location_id'],
+                'location_id' => $validated['location'],
                 'address' => $validated['address']
             ]
         );

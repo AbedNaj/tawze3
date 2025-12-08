@@ -5,6 +5,7 @@ namespace App\Livewire\Admin\Pages\Inventory;
 use App\Models\Tenants\EmployeeInventory;
 use App\Models\Tenants\Inventory;
 use App\Models\Tenants\Product;
+use App\Models\Tenants\ProductType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
@@ -16,7 +17,7 @@ class TransferPick extends Component
     public $employees = [];
     public $products = [];
     public $productTypes = [];
-    public $ProductType, $product, $employee, $quantity = 0;
+    public $productType, $product, $employee, $quantity = 0;
     public $productCount = 0;
     protected $rules = [
         'employee' => 'required|exists:employees,id',
@@ -27,7 +28,7 @@ class TransferPick extends Component
             'min:1',
 
         ],
-        'ProductType' => 'required'
+        'productType' => 'required'
 
     ];
 
@@ -35,7 +36,7 @@ class TransferPick extends Component
     public function updatedProductType()
     {
 
-        $this->products = Product::where('product_type_id', '=', $this->ProductType)->pluck('name', 'id');
+        $this->products = Product::select('name', 'id')->where('product_type_id', '=', $this->productType)->get();
     }
     public function updatedProduct()
     {
@@ -44,22 +45,27 @@ class TransferPick extends Component
     }
     public function mount()
     {
+        $this->productTypes = ProductType::select('name', 'id')->get();
 
-        $this->ProductType = Request()->input('product-type');
+        $this->productType = (int) request()->input('product-type');
+
+
 
         if (Request()->input('product-type')) {
 
-            $this->product = Request()->input('product');
-            $this->products = Product::where('product_type_id', '=', $this->ProductType)->pluck('name', 'id');
+
+            $this->products = Product::select('name', 'id')->where('product_type_id', '=', $this->productType)->get();
+            $this->product = (int) Request()->input('product');
             $this->productCount = Inventory::where('product_id', '=', $this->product)->value('quantity');
         }
 
-        $this->employee = Request()->input('employee');
+        $this->employee =  (int) Request()->input('employee');
     }
 
     public function transfer()
     {
         $this->validate();
+
         if ($this->productCount < $this->quantity) {
             throw    ValidationException::withMessages(['quantity' => __('inventory.quantity_error')]);
         }

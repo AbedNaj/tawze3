@@ -52,6 +52,7 @@ return [
     'active'         => 'فعّال',
     'no_activity'    => 'لا يوجد نشاط',
 
-
+    'edit_unsccessful' => 'لم يتم تعديل أي بيانات',
+    'edit_successful' => 'تم تعديل البيانات بنجاح',
     'login' => 'تسجيل الدخول',
 ];
