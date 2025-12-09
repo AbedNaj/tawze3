@@ -9,4 +9,5 @@ class StockMovement extends Model
 {
     /** @use HasFactory<\Database\Factories\Tenants\StockMovementFactory> */
     use HasFactory;
+    protected $guarded = ['id', 'created_at'];
 }

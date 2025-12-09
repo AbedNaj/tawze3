@@ -2,11 +2,14 @@
 
 namespace App\Livewire\Admin\Pages\Inventory;
 
+use App\Enums\StockMovementEnums;
+use App\Events\StockMovementMade;
 use App\Models\Tenants\EmployeeInventory;
 use App\Models\Tenants\Inventory;
 use App\Models\Tenants\Product;
 use App\Models\Tenants\ProductType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
@@ -64,6 +67,7 @@ class TransferPick extends Component
 
     public function transfer()
     {
+
         $this->validate();
 
         if ($this->productCount < $this->quantity) {
@@ -76,12 +80,38 @@ class TransferPick extends Component
         $finalQuantity = $oldQuantity + $this->quantity;
 
 
-        EmployeeInventory::updateOrCreate([
-            'employee_id' =>  $this->employee,
-            'product_id' => $this->product
-        ], ['quantity' => $finalQuantity]);
 
-        Inventory::where('product_id', '=', $this->product)->decrement('quantity', $this->quantity);
+
+        DB::transaction(function () use ($finalQuantity) {
+            EmployeeInventory::updateOrCreate([
+                'employee_id' =>  $this->employee,
+                'product_id' => $this->product
+            ], ['quantity' => $finalQuantity]);
+
+            Inventory::where('product_id', '=', $this->product)->decrement('quantity', $this->quantity);
+            event(new StockMovementMade(
+                StockMovementEnums::transfer_out->value,
+                $this->product,
+                null,
+                $this->employee,
+                null,
+                $this->quantity,
+                null,
+                Auth::guard('admin')->user()->id
+            ));
+
+            event(new StockMovementMade(
+                StockMovementEnums::transfer_in->value,
+                $this->product,
+                null,
+                $this->employee,
+                $this->employee,
+                $this->quantity,
+                null,
+                Auth::guard('admin')->user()->id
+            ));
+        });
+
         $this->reset();
     }
     public function render()

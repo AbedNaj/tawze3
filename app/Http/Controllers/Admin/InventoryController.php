@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\StockMovementEnums;
+use App\Events\StockMovementMade;
 use App\Http\Controllers\Controller;
 use App\Models\Tenants\Inventory;
 use App\Http\Requests\Admin\Inventory\StoreInventoryRequest;
@@ -11,6 +13,8 @@ use App\Models\Tenants\EmployeeInventory;
 use App\Models\Tenants\Product;
 use App\Models\Tenants\ProductType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class InventoryController extends Controller
 {
@@ -79,12 +83,24 @@ class InventoryController extends Controller
         $validated = $request->validate([
             'quantity' => 'numeric|required|min:0',
         ]);
+        DB::transaction(function () use ($validated, $inventory) {
+            $inventory->increment('quantity', $validated['quantity']);
 
-        $inventory->increment('quantity', $validated['quantity']);
+            $inventory->update([
+                'last_restock_date' => now()
+            ]);
+            event(new StockMovementMade(
+                StockMovementEnums::purchase_in->value,
+                $inventory->product_id,
+                null,
+                null,
+                null,
+                $validated['quantity'],
+                null,
+                Auth::guard('admin')->user()->id
+            ));
+        });
 
-        $inventory->update([
-            'last_restock_date' => now()
-        ]);
         return redirect()->route('admin.inventory.show', $inventory)->with('status', 'تمت إعادة التوريد بنجاح');
     }
     public function transfer()

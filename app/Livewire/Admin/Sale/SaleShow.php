@@ -4,9 +4,11 @@ namespace App\Livewire\Admin\Sale;
 
 use App\Enums\SalePaymentStatusEnum;
 use App\Events\Admin\Sale\SaleCreated;
+use App\Events\StockMovementMade;
 use Livewire\Component;
 
 use App\Enums\SaleStatusEnum;
+use App\Enums\StockMovementEnums;
 use App\Models\Tenants\Debt;
 use App\Models\Tenants\Employee;
 use App\Models\Tenants\EmployeeInventory;
@@ -17,6 +19,7 @@ use App\Models\Tenants\Product;
 use App\Models\Tenants\ProductType;
 use App\Models\Tenants\Sale;
 use App\Models\Tenants\SaleItem;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
@@ -173,6 +176,19 @@ class SaleShow extends Component
                 $this->saleItems,
                 $this->employee
             ));
+            foreach ($this->saleItems as $item) {
+
+                event(new StockMovementMade(
+                    StockMovementEnums::sale_out->value,
+                    $item['product_id'],
+                    $this->sale->id,
+                    $this->employee,
+                    null,
+                    $item['stock'],
+                    $item['price'],
+                    Auth::guard('admin')->user()->id
+                ));
+            }
         });
 
 
