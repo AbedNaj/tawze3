@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\PaymentMethodController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProductTypeController;
 use App\Http\Controllers\Admin\SaleController;
+use App\Http\Controllers\Admin\WareHouseController;
 use App\Http\Middleware\RedirectIfNotAdmin;
 use App\Models\Tenants\EmployeeInventory;
 use Illuminate\Support\Facades\Route;
@@ -179,6 +180,8 @@ Route::middleware([
                 Route::patch('sales/{sale}/update', 'update')->name('sales.update');
                 Route::delete('sales/{sale}/delete', 'destroy')->name('sales.delete');
             });
+
+            Route::resource('ware-houses', WareHouseController::class)->names('ware-houses')->except(['edit']);
         });
     });
 });

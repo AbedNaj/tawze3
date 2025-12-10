@@ -19,5 +19,6 @@ return [
         'payment_method' => 'طرق الدفع',
         'sales' => 'الفواتير',
         'customers_list' => 'قائمة الزبائن',
+        'warehouse' => 'المستودعات',
     ],
 ];

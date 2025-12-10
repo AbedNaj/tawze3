@@ -30,7 +30,7 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                                 </svg>
-                                {{ $customer->location->name }}
+                                {{ $customer->location_name }}
                             </span>
                         </div>
                     </div>
@@ -86,7 +86,7 @@
                             <div class="space-y-4">
 
 
-                                <x-common.readonly-show :icon="view('components.icons.location')" :label="__('customer.city')" :data="$customer->location->name"
+                                <x-common.readonly-show :icon="view('components.icons.location')" :label="__('customer.city')" :data="$customer->location_name"
                                     color="purple" />
                                 <x-common.readonly-show :icon="view('components.icons.home')" :label="__('customer.address')" :data="$customer->address"
                                     color="orange" />
