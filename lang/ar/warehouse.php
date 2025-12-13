@@ -9,4 +9,5 @@ return [
     'create_warehouse' => 'إنشاء مستودع',
     'address' => 'العنوان',
     'location' => 'الموقع',
+    'inventory_list' => 'قائمة المخزون',
 ];

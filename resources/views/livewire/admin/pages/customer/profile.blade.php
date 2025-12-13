@@ -40,7 +40,7 @@
                 <div class="flex gap-3">
 
                     <x-button x-show="!editing" @click="editing = true" icon="pencil" :label="__('common.edit')"></x-button>
-                    <x-common.delete-modal :route="route('admin.customers.delete', ['customer' => $customer->id])" :description="__('customer.delete_warning')"
+                    <x-common.delete-modal :route="route('admin.customers.destroy', ['customer' => $customer->id])" :description="__('customer.delete_warning')"
                         :title="__('customer.delete_customer')"></x-common.delete-modal>
 
                 </div>
@@ -112,8 +112,8 @@
                         <x-input name="phone" :label="__('customer.phone')" :value="$customer->phone" />
 
 
-                        <x-select name="location" :label="__('customer.city')" :async-data="route('api.v1.locations')" option-label="name"
-                            option-value="id" />
+                        <x-select name="location" wire:model='selectedLocationID' :label="__('customer.city')" :async-data="route('api.v1.locations')"
+                            option-label="name" option-value="id" />
 
                         <x-input name="address" :label="__('customer.address')" :value="$customer->address" />
 

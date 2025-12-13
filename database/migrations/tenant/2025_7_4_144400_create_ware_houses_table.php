@@ -12,7 +12,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('warehouses', function (Blueprint $table) {
+        Schema::create('ware_houses', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->foreignIdFor(Location::class)->nullable()->constrained()->onDelete('set null');

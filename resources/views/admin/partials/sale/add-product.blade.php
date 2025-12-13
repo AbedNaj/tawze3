@@ -5,8 +5,8 @@
       <form wire:submit.prevent='productItemCreate'>
 
 
-          <x-select wire:model.live="selectedProductType" :label="__('sale.sale.product_type')" :options="$productTypes" option-label="name"
-              option-value="id" />
+          <x-select wire:model.live="selectedProductType" :placeholder="__('sale.sale.select_product_type')" :label="__('sale.sale.product_type')" :options="$productTypes"
+              option-label="name" option-value="id" />
           @if ($selectedProductType)
 
               <x-select wire:model.live="product" :placeholder="__('sale.sale.product_select')" :label="__('sale.sale.product')" :options="$products"
@@ -15,7 +15,7 @@
               @if ($productInventory >= 0 && $product)
                   <div class="mt-2 text-sm text-gray-500 flex items-center gap-2">
                       <span class="font-medium text-gray-700">
-                          {{ $isForEmployee ? __('sale.sale.available_employee_quantity') . ' ' . $employeeName : __('sale.sale.available__quantity') }}:
+                          {{ __('sale.sale.available__quantity') }}:
                       </span>
                       <span class="bg-gray-100 text-gray-800 px-2 py-0.5 rounded-md">
                           {{ $productInventory }}

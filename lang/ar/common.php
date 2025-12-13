@@ -42,7 +42,7 @@ return [
     'overview'       => 'نظرة عامة',
     'activity'       => 'النشاط',
     'recent_activity' => 'النشاطات الأخيرة',
-
+    'start' => 'بدأت العملية',
     'print_profile'  => 'طباعة الملف',
     'export_pdf'     => 'تصدير PDF',
     'add_note'       => 'إضافة ملاحظة',

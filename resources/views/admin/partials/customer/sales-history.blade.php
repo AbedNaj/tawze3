@@ -29,9 +29,9 @@
                         </div>
                         <div>
                             <label
-                                class="block text-xs font-medium text-gray-500 mb-1">{{ __('sale.sale.employee_name') }}</label>
+                                class="block text-xs font-medium text-gray-500 mb-1">{{ __('sale.sale.created_by') }}</label>
                             <div class="text-sm font-medium">
-                                ${{ $item->employee->name ?? __('sale.sale.no_employee_assigned') }}</div>
+                                ${{ $item->user->name }}</div>
                         </div>
 
                         @php
@@ -63,10 +63,8 @@
                             {{ __('sale.sale.invoice_number') }}</th>
                         <th
                             class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200">
-                            {{ __('sale.sale.employee_name') }}</th>
-                        <th
-                            class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200">
-                            {{ __('debt.remaining_amount') }}</th>
+                            {{ __('sale.sale.created_by') }}</th>
+
                         <th
                             class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200">
                             {{ __('sale.sale.status') }}</th>
@@ -86,9 +84,8 @@
                             <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900 text-right">
                                 {{ $item->invoice_number }}</td>
                             <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900 text-right">
-                                {{ $item->employee->name ?? __('sale.sale.no_employee_assigned') }}</td>
-                            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900 text-right">
-                                {{ $item->remaining_amount }}</td>
+                                {{ $item->user->name }}</td>
+
                             @php
                                 $saleStatus = App\Enums\SaleStatusEnum::tryFrom($item->status);
                             @endphp

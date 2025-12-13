@@ -10,7 +10,7 @@ class Profile extends Component
     // initial data
     public $customer, $locations;
 
-
+    public $selectedLocationID;
     public $sales = [], $debts = [];
 
 
@@ -18,7 +18,8 @@ class Profile extends Component
     {
 
         if (empty($this->sales)) {
-            $this->sales = Sale::select('id', 'employee_id', 'invoice_number', 'status', 'invoice_date')->with('employee:id,name')
+            $this->sales = Sale::select('id',  'invoice_number', 'status', 'invoice_date', 'created_by')
+                ->with('user:id,name')
                 ->orderby('invoice_number', 'desc')
                 ->where('customer_id', '=', $this->customer->id)->get();
         }
@@ -29,6 +30,11 @@ class Profile extends Component
         if (empty($this->debts)) {
             $this->debts = $this->customer->debts()->with('sale:id,invoice_number')->get();
         }
+    }
+    public function mount()
+    {
+
+        $this->selectedLocationID = $this->customer->location_id;
     }
     public function render()
     {

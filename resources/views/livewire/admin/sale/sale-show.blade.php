@@ -30,7 +30,7 @@
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
 
                         @include('admin.partials.sale.invoice-card')
-                        @include('admin.partials.sale.employee-card')
+                        @include('admin.partials.sale.warehouse-card')
                         @include('admin.partials.sale.customer-card')
 
                     </div>
@@ -67,9 +67,6 @@
                     invoiceDate: new Date().toISOString().split('T')[0],
                     discount: 0,
                     products: [],
-
-
-
                 }
             }
         </script>
@@ -109,7 +106,7 @@
 
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
                         @include('admin.partials.sale.show.invoice-card')
-                        @include('admin.partials.sale.show.employee-card')
+                        @include('admin.partials.sale.show.warehouse-card')
 
                         @include('admin.partials.sale.show.customer-card')
 

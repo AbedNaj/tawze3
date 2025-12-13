@@ -24,13 +24,12 @@ class SaleCreated
     // for inventory handling
 
     public $saleItems, $employee;
-    public function __construct($sale, $paymentMoehod, $paidAmount, $saleItems, $employee)
+    public function __construct($sale, $paymentMoehod, $paidAmount, $saleItems,)
     {
         $this->sale = $sale;
         $this->paidAmount = $paidAmount;
         $this->paymentMoehod = $paymentMoehod;
         $this->saleItems = $saleItems;
-        $this->employee = $employee;
     }
 
     /**

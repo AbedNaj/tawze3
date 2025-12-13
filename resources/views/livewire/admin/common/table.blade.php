@@ -13,7 +13,8 @@
                 @if ($allowSearch == true)
                     <div class="w-full sm:w-auto">
                         <div class="relative">
-                            <input wire:model.live="search" placeholder="{{ __('common.search_by_name') }}"
+                            <input wire:model.live.debounce.500ms="search"
+                                placeholder="{{ __('common.search_by_name') }}"
                                 class="w-full sm:w-64 px-4 py-2.5 pl-10 text-slate-700 bg-white/80 backdrop-blur-sm border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300 shadow-sm hover:shadow-md" />
                             <svg class="absolute left-3 top-3 h-4 w-4 text-slate-400" fill="none"
                                 stroke="currentColor" viewBox="0 0 24 24">

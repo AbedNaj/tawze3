@@ -6,7 +6,6 @@ use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EmployeeController;
-use App\Http\Controllers\Admin\EmployeeInventoryController;
 use App\Http\Controllers\Admin\EmployeeUserController;
 use App\Http\Controllers\Admin\InventoryController;
 use App\Http\Controllers\Admin\LocationController;
@@ -16,7 +15,6 @@ use App\Http\Controllers\Admin\ProductTypeController;
 use App\Http\Controllers\Admin\SaleController;
 use App\Http\Controllers\Admin\WareHouseController;
 use App\Http\Middleware\RedirectIfNotAdmin;
-use App\Models\Tenants\EmployeeInventory;
 use Illuminate\Support\Facades\Route;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
 use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
@@ -60,74 +58,40 @@ Route::middleware([
                 Route::get('dashbaord', 'index')->name('dashboard');
             });
 
-            Route::controller(ProductTypeController::class)->group(function () {
 
-                Route::get('product-types', 'index')->name('product-types.index');
+            // Product Types
+            Route::resource('product-types', ProductTypeController::class)->names('product-types');
 
-                Route::get('product-types/create', 'create')->name('product-types.create');
 
-                Route::post('product-types/create', 'store')->name('product-types.store');
-
-                Route::get('product-types/{id}/show', 'show')->name('product-types.show');
-
-                Route::patch('product-types/{id}/update', 'update')->name('product-types.update');
-
-                Route::delete('product-types/{id}/delete', 'destroy')->name('product-types.delete');
-            });
+            // Product
 
             Route::controller(ProductController::class)->group(function () {
-
-                Route::get('products', 'index')->name('products.index');
-
-                Route::get('products/create', 'create')->name('products.create');
-
-                Route::post('products/create', 'store')->name('products.store');
-
-                Route::get('products/{product}/show', 'show')->name('products.show');
-
-                Route::patch('products/{product}/update', 'update')->name('products.update');
-
-                Route::delete('products/{product}/delete', 'destroy')->name('products.delete');
 
                 Route::get('products/product-entry-method', 'productEntry')->name('products.product-entry-method');
             });
 
 
+            Route::resource('products', ProductController::class)->names('products')->except(['edit']);
+
+
+            // Inventory
+
             Route::controller(InventoryController::class)->group(function () {
 
-                Route::get('inventory', 'index')->name('inventory.index');
-
-                Route::get('inventory/{inventory}/show', 'show')->name('inventory.show');
-
-                Route::patch('inventory/{inventory}/update', 'update')->name('inventory.update');
-                Route::patch('inventory/{inventory}/restock', 'restock')->name('inventory.restock');
+                Route::patch('restock/{inventory}', 'restock')->name('restock.store');
                 Route::get('employee-inventory/transfer', 'transfer')->name('inventory.transfer');
                 Route::post('inventory/transfer', 'transterUpdate')->name('inventory.transterUpdate');
             });
 
+            Route::resource('inventory', InventoryController::class)->names('inventory')->except(['create', 'store', 'edit']);
 
 
-            Route::controller(EmployeeController::class)->group(function () {
 
-                Route::get('employees', 'index')->name('employees.index');
+            // Employee
 
-                Route::get('employees/create', 'create')->name('employees.create');
+            Route::resource('employees', EmployeeController::class)->names('employees')->except(['edit']);
 
-                Route::post('employees/create', 'store')->name('employees.store');
 
-                Route::get('employees/{employee}/show', 'show')->name('employees.show');
-
-                Route::patch('employees/{employee}/update', 'update')->name('employees.update');
-
-                Route::delete('employees/{employee}/delete', 'destroy')->name('employees.delete');
-            });
-
-            Route::controller(EmployeeInventoryController::class)->group(function () {
-
-                Route::get('employee-inventory', 'index')->name('employeeInventory.index');
-
-                Route::get('employee-inventory/{employeeInventory}/show', 'show')->name('employeeInventory.show');
-            });
             Route::controller(EmployeeUserController::class)->group(function () {
 
                 Route::get('employeeUser/{employeeUser}/show', 'show')->name('employeeUser.show');
@@ -136,50 +100,27 @@ Route::middleware([
                 Route::patch('employeeUser/{employeeUser}/update-password', 'updatePassword')->name('employeeUser.update-password');
             });
 
-            Route::controller(LocationController::class)->group(function () {
 
-                Route::get('locations', 'index')->name('locations.index');
-                Route::get('locations/create', 'create')->name('locations.create');
-                Route::post('locations/create', 'store')->name('locations.store');
+            // Location
 
-                Route::patch('locations/{location}/update', 'update')->name('locations.update');
-                Route::get('locations/{location}/show', 'show')->name('locations.show');
-
-                Route::delete('locations/{location}/delete', 'destroy')->name('locations.delete');
-            });
-
-            Route::controller(CustomerController::class)->group(function () {
-
-                Route::get('customers', 'index')->name('customers.index');
-                Route::get('customers/create', 'create')->name('customers.create');
-                Route::post('customers/create', 'store')->name('customers.store');
-
-                Route::patch('customers/{customer}/update', 'update')->name('customers.update');
-                Route::get('customers/{customer}/show', 'show')->name('customers.show');
-
-                Route::delete('customers/{customer}/delete', 'destroy')->name('customers.delete');
-            });
-
-            Route::controller(PaymentMethodController::class)->group(function () {
-
-                Route::get('payment-methods', 'index')->name('paymentMethods.index');
-                Route::get('payment-methods/create', 'create')->name('paymentMethods.create');
-                Route::post('payment-methods/create', 'store')->name('paymentMethods.store');
-                Route::get('payment-methods/{paymentMethod}/show', 'show')->name('paymentMethods.show');
-                Route::patch('payment-methods/{paymentMethod}/update', 'update')->name('paymentMethods.update');
-                Route::delete('payment-methods/{paymentMethod}/delete', 'destroy')->name('paymentMethods.delete');
-            });
+            Route::resource('locations', LocationController::class)->names('locations')->except(['edit']);
 
 
-            Route::controller(SaleController::class)->group(function () {
+            // Customer 
 
-                Route::get('sales', 'index')->name('sales.index');
-                Route::get('sales/create', 'create')->name('sales.create');
-                Route::post('sales/create', 'store')->name('sales.store');
-                Route::get('sales/{sale}/show', 'show')->name('sales.show');
-                Route::patch('sales/{sale}/update', 'update')->name('sales.update');
-                Route::delete('sales/{sale}/delete', 'destroy')->name('sales.delete');
-            });
+            Route::resource('customers', CustomerController::class)->names('customers')->except(['edit']);
+
+
+            // Payment Method
+
+            Route::resource('payment-methods', PaymentMethodController::class)->names('paymentMethods')->except(['edit']);
+
+
+            // sales 
+
+            Route::resource('sales', SaleController::class)->names('sales')->except(['edit']);
+
+            // ware house
 
             Route::resource('ware-houses', WareHouseController::class)->names('ware-houses')->except(['edit']);
         });

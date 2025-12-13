@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\Inventory\RestockRequest;
+use App\Services\Inventory\Contracts\InventoryServiceInterface;
 use App\Enums\StockMovementEnums;
 use App\Events\StockMovementMade;
 use App\Http\Controllers\Controller;
@@ -9,7 +11,6 @@ use App\Models\Tenants\Inventory;
 use App\Http\Requests\Admin\Inventory\StoreInventoryRequest;
 use App\Http\Requests\Admin\Inventory\UpdateInventoryRequest;
 use App\Models\Tenants\Employee;
-use App\Models\Tenants\EmployeeInventory;
 use App\Models\Tenants\Product;
 use App\Models\Tenants\ProductType;
 use Illuminate\Http\Request;
@@ -77,64 +78,22 @@ class InventoryController extends Controller
         return back()->with('info', 'لم يتم إجراء أي تعديل');
     }
 
-    public function restock(Request $request, Inventory $inventory)
+    public function restock(Request $request, Inventory $inventory, InventoryServiceInterface $inventoryService)
     {
+        $validated = $request->validate(['quantity' => 'numeric|required|min:0']);
 
-        $validated = $request->validate([
-            'quantity' => 'numeric|required|min:0',
-        ]);
-        DB::transaction(function () use ($validated, $inventory) {
-            $inventory->increment('quantity', $validated['quantity']);
+        $result = $inventoryService->restock($inventory->id, $validated['quantity']);
 
-            $inventory->update([
-                'last_restock_date' => now()
-            ]);
-            event(new StockMovementMade(
-                StockMovementEnums::purchase_in->value,
-                $inventory->product_id,
-                null,
-                null,
-                null,
-                $validated['quantity'],
-                null,
-                Auth::guard('admin')->user()->id
-            ));
-        });
+        if (request()->wantsJson()) {
 
-        return redirect()->route('admin.inventory.show', $inventory)->with('status', 'تمت إعادة التوريد بنجاح');
+            return response()->json(['success' => $result->success, 'message' => $result->message, 'inventory' => $result->inventory->id]);
+        }
+
+        return redirect()->back()->with('status', $result->message);
     }
     public function transfer()
     {
 
         return view('admin.pages.inventory.transfer');
-    }
-
-
-
-    public function transterUpdate(Request $request)
-    {
-        // this function is no longer in use because LiveWire component is reponsible of the transfer
-
-
-        $validated = $request->validate(
-            [
-                'employee' => 'required|exists:employees,id',
-                'product' => 'required|exists:products,id',
-                'quantity' => 'required|numeric|min:0',
-            ]
-        );
-
-
-        $oldQuantity = EmployeeInventory::where('employee_id', '=', $validated['employee'])
-            ->where('product_id', '=', $validated['product'])
-            ->value('quantity') ?? 0;
-
-        $finalQuantity = $oldQuantity + $validated['quantity'];
-        EmployeeInventory::updateOrCreate([
-            'employee_id' =>  $validated['employee'],
-            'product_id' => $validated['product']
-        ], ['quantity' => $finalQuantity]);
-
-        return back();
     }
 }

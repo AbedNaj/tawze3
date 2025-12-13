@@ -17,9 +17,9 @@ return new class extends Migration
     {
         Schema::create('sales', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Employee::class)->nullable()->constrained()->nullOnDelete();
+            $table->nullableMorphs('sourceable');
             $table->foreignIdFor(Customer::class)->nullable()->constrained()->nullOnDelete();
-            $table->foreignIdFor(User::class)->nullable()->constrained()->nullOnDelete();
+            $table->foreignIdFor(User::class, 'created_by')->nullable()->constrained()->nullOnDelete();
             $table->string('invoice_number');
             $table->decimal('price', 10, 2)->default(0);
             $table->enum('status', ['draft', 'confirmed', 'cancelled'])->default('draft');

@@ -30,7 +30,7 @@
 
 
                          @php
-                             $inventoryStauts = App\Enums\EmployeeInventoryStatusEnum::tryFrom($item->status);
+                             $inventoryStauts = App\Enums\InventoryStatusEnum::tryFrom($item->status);
 
                          @endphp
                          <div>
@@ -74,7 +74,7 @@
                  <tbody class="bg-white divide-y divide-gray-100">
                      @forelse ($inventories as $item)
                          @php
-                             $inventoryStatus = App\Enums\EmployeeInventoryStatusEnum::tryFrom($item->status);
+                             $inventoryStatus = App\Enums\InventoryStatusEnum::tryFrom($item->status);
 
                          @endphp
 

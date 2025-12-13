@@ -16,15 +16,12 @@ class Product extends Model
         return $this->belongsTo(ProductType::class);
     }
 
-    public function inventory()
+    public function inventories()
     {
-        return $this->hasOne(Inventory::class);
+        return $this->hasMany(Inventory::class);
     }
 
-    public function employeeInventories()
-    {
-        return $this->hasMany(EmployeeInventory::class);
-    }
+
     public function saleItems()
     {
 

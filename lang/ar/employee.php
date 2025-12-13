@@ -35,6 +35,6 @@ return [
         'inventory_status' => 'الحالة',
         'empty' => 'لا يوجد مخزون للموظف المختار',
 
-    ]
-
+    ],
+    'inventories' => 'المخزون',
 ];

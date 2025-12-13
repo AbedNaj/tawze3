@@ -6,45 +6,43 @@ use App\Enums\SalePaymentStatusEnum;
 use App\Events\Admin\Sale\SaleCreated;
 use App\Events\StockMovementMade;
 use Livewire\Component;
-
 use App\Enums\SaleStatusEnum;
 use App\Enums\StockMovementEnums;
 use App\Models\Tenants\Debt;
-use App\Models\Tenants\Employee;
-use App\Models\Tenants\EmployeeInventory;
 use App\Models\Tenants\Inventory;
 use App\Models\Tenants\Payment;
 use App\Models\Tenants\PaymentMethod;
 use App\Models\Tenants\Product;
 use App\Models\Tenants\ProductType;
-use App\Models\Tenants\Sale;
 use App\Models\Tenants\SaleItem;
+use App\Models\Tenants\WareHouse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\Rule;
+
 use Illuminate\Validation\ValidationException;
 
 class SaleShow extends Component
 {
 
-    public $customers = [], $employees = [];
+    public $customers = [];
 
     public $productTypes = [], $products = [];
 
     public $sale;
-    public $isForEmployee = false;
+
     public $selectedProducts = [];
 
     public $product, $quantity = 0;
 
-    public $note, $customer, $employee, $invoiceDate, $price;
+    public $note, $customer, $invoiceDate, $price;
 
     public $saleItems = [], $total = 0;
 
-    public $productInventory, $employeeName;
+    public $productInventory;
 
     public $paymentMethods = [], $paymentMethod, $paidAmount = 0;
     public $selectedProductType;
+    public $wareHouse, $wareHouses = [], $warehouseName = '';
 
     public $debtPaiedAmount;
 
@@ -54,7 +52,6 @@ class SaleShow extends Component
         'quantity' => 'nullable|numeric|min:1',
         'note' => 'nullable|string|max:1000',
         'customer' => 'required|exists:customers,id',
-        'employee' => 'nullable|exists:employees,id',
         'invoiceDate' => 'date',
         'paymentMethod' => 'required|integer|exists:payment_methods,id',
         'paidAmount' => 'required|numeric|min:0',
@@ -70,27 +67,17 @@ class SaleShow extends Component
             'invoice_date' => $this->invoiceDate,
         ]);
     }
-    public function updatedisForEmployee()
+
+    public function updatedWareHouse($value)
     {
-
-        if ($this->isForEmployee == false) {
-
-            $this->sale->update([
-                'employee_id' => null,
-            ]);
-        }
-    }
-
-    public function UpdatedEmployee()
-    {
-        $this->validateOnly('employee');
-
         $this->sale->update([
-            'employee_id' => $this->employee
+            'sourceable_type' => WareHouse::class,
+            'sourceable_id' => $value
         ]);
-
-        $this->employeeName = Employee::where('id', '=',  $this->employee)->value('name');
+        $this->warehouseName = WareHouse::where('id', '=', $this->wareHouse)->value('name');
     }
+
+
 
 
     public function UpdatedCustomer()
@@ -116,7 +103,12 @@ class SaleShow extends Component
         $this->paymentMethods = PaymentMethod::select('id', 'name')->get();
     }
 
+    public function fetchWareHouses()
+    {
 
+
+        $this->wareHouses = WareHouse::select('id', 'name')->get();
+    }
 
 
     public function fetchPayments()
@@ -130,10 +122,10 @@ class SaleShow extends Component
 
         $this->products = Product::select('name', 'id')->where('product_type_id', '=', $this->selectedProductType)->get();
     }
-    public function updatedProduct()
+    public function updatedProduct($value)
     {
         $this->validateOnly('product');
-        $this->productInventory = $this->getInventory($this->product)->value('quantity') ?? 0;
+        $this->productInventory = $this->getInventory($value)->value('quantity') ?? 0;
     }
 
     public function saleConfirm()
@@ -174,15 +166,15 @@ class SaleShow extends Component
                 $this->paymentMethod,
                 $this->paidAmount,
                 $this->saleItems,
-                $this->employee
             ));
+
             foreach ($this->saleItems as $item) {
 
                 event(new StockMovementMade(
                     StockMovementEnums::sale_out->value,
                     $item['product_id'],
                     $this->sale->id,
-                    $this->employee,
+                    null,
                     null,
                     $item['stock'],
                     $item['price'],
@@ -210,6 +202,7 @@ class SaleShow extends Component
         $this->validate([
             'product' => 'required|integer|exists:products,id',
             'quantity' => 'nullable|numeric|min:1',
+            'wareHouse' => 'required|integer|exists:ware_houses,id'
         ]);
 
         $saleItems = collect($this->saleItems)
@@ -340,9 +333,10 @@ class SaleShow extends Component
 
     public function getInventory($productId)
     {
-        return $this->isForEmployee
-            ? EmployeeInventory::where('employee_id', $this->employee)->where('product_id', $productId)
-            : Inventory::where('product_id', $productId);
+
+        return Inventory::where('product_id',  '=', $productId)
+            ->where('locationable_type', '=', $this->sale->sourceable_type)
+            ->where('locationable_id', '=', $this->sale->sourceable_id);
     }
     public function fetchSaleData()
     {
@@ -351,10 +345,12 @@ class SaleShow extends Component
 
 
         if ($this->sale->status == SaleStatusEnum::DRAFT->value) {
+
+            $this->wareHouse = $this->sale->sourceable->id ?? null;
+            $this->warehouseName = WareHouse::where('id', '=', $this->sale->sourceable_id)->value('name');
             $this->customer = $this->sale->customer_id;
-            $this->employee = $this->sale->employee_id;
             $this->note = $this->sale->note;
-            $this->employeeName = $this->sale->employee ? Employee::find($this->sale->employee_id)->name : null;
+
             $this->invoiceDate = $this->sale->invoice_date;
             $this->fetchSaleItems();
         }
@@ -438,9 +434,10 @@ class SaleShow extends Component
             return redirect()->route('admin.sales.index')->with('success', __('sale.sale.deleted_successfully'));
         });
     }
+
     public function mount()
     {
-
+        $this->fetchWareHouses();
         $this->fetchSaleData();
     }
     public function render()

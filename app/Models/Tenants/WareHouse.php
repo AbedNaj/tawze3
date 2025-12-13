@@ -4,11 +4,13 @@ namespace App\Models\Tenants;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\HasInventory;
+use App\Traits\HasSale;
 
 class WareHouse extends Model
 {
     /** @use HasFactory<\Database\Factories\Tenants\WareHouseFactory> */
-    use HasFactory;
+    use HasFactory, HasInventory, HasSale;
     protected $guarded = ['id'];
 
 

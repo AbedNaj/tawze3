@@ -45,15 +45,10 @@ class Sale extends Model
         return $this->belongsTo(Customer::class);
     }
 
-    public function employee()
-    {
-
-        return $this->belongsTo(Employee::class);
-    }
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'created_by');
     }
 
     public function payments()
@@ -63,5 +58,10 @@ class Sale extends Model
     public function debt()
     {
         return $this->hasOne(Debt::class);
+    }
+
+    public function sourceable()
+    {
+        return $this->morphTo();
     }
 }

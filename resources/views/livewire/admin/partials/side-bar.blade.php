@@ -57,10 +57,6 @@
                     {{ __('sidebar.admin.inventory_list') }}
                 </x-admin.side-bar-sub-link>
 
-                <x-admin.side-bar-sub-link href="{{ route('admin.employeeInventory.index') }}" :is_active="request()->routeIs('admin.employeeInventory*') ||
-                    request()->routeIs('admin.inventory.transfer*')">
-                    {{ __('sidebar.admin.employee_inventory_list') }}
-                </x-admin.side-bar-sub-link>
 
 
                 <x-admin.side-bar-sub-link href="{{ route('admin.ware-houses.index') }}" :is_active="request()->routeIs('admin.ware-houses*')">

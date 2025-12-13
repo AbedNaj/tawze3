@@ -18,4 +18,9 @@ class Inventory extends Model
     {
         return $this->belongsTo(Product::class);
     }
+
+    public function locationable()
+    {
+        return $this->morphTo();
+    }
 }

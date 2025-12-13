@@ -118,6 +118,14 @@ return [
         'paid_successfully' => 'تم الدفع بنجاح',
         'debt_amount_error' => 'المبلغ المدقوع أكبر من مبلغ الدين',
         'deleted_successfully' => 'تم حذف الفاتورة بنجاح',
+        'storage_location' => 'موقع التخزين',
+        'select_warehouse' => 'اختر مستودع',
+        'warehouse' => 'المستودع',
+        'warehouse_invoice_note' => 'سيتم تسجيل هذه الفاتورة على مخزون المستودع المحدد.',
+        'select_product_type' => 'اختر نوع المنتج',
+        'selected_warehouse' => 'المستودع المحدد',
+        'remove_products_for_change_warehouse' =>
+        'لتغيير المستودع، يجب إزالة جميع المنتجات من الفاتورة أولًا.',
 
     ]
 

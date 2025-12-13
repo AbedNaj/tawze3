@@ -28,5 +28,9 @@ return [
     'product_type_name' => 'اسم نوع المنتج',
     'product_types' => 'أنواع المنتجات',
     'prodtct_type' => 'نوع المنتج',
+    'wareHouse' => 'المستودع',
+    'locationable_name' => 'مكان المخزون',
+    'inventory_list' => 'قائمة المخزون',
+    'last_restock_date' => 'تاريخ آخر إعادة تخزين',
 
 ];

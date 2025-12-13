@@ -26,23 +26,16 @@ class HandleSaleInventory
 
         foreach ($event->saleItems as $saleItem) {
 
-            if ($event->employee) {
-                $inventory = EmployeeInventory::where('employee_id', $event->employee)
-                    ->where('product_id', $saleItem['product_id'])
-                    ->lockForUpdate()
-                    ->firstOrFail();
-                $inventory->quantity -= $saleItem['stock'];
 
-                $inventory->save();
-            } else {
-                $inventory = Inventory::where('product_id', $saleItem['product_id'])
-                    ->lockForUpdate()
-                    ->firstOrFail();
+            $inventory = Inventory::where('product_id', $saleItem['product_id'])
+                ->where('locationable_type', '=', $event->sale->sourceable_type)
+                ->where('locationable_id', '=', $event->sale->sourceable_id)
+                ->lockForUpdate()
+                ->firstOrFail();
 
-                $inventory->quantity -= $saleItem['stock'];
+            $inventory->quantity -= $saleItem['stock'];
 
-                $inventory->save();
-            }
+            $inventory->save();
         }
     }
 }

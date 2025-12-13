@@ -28,7 +28,7 @@ class SaleController extends Controller
     public function create()
     {
         $lastSale = Sale::orderBy('created_at', 'desc')
-            ->where('user_id', '=', Auth::guard('admin')->user()->id)->first();
+            ->where('created_by', '=', Auth::guard('admin')->user()->id)->first();
 
         $employees = Employee::pluck('name', 'id');
         $customers = Customer::pluck('name', 'id');
@@ -45,7 +45,7 @@ class SaleController extends Controller
         } else {
             $sale = Sale::create([
                 'price' => 0,
-                'user_id' => Auth::guard('admin')->user()->id,
+                'created_by' => Auth::guard('admin')->user()->id,
                 'invoice_date' => now(),
             ]);
 

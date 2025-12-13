@@ -12,7 +12,10 @@ class Location extends Model
 
     protected $guarded = ['id'];
 
-
+    public function locationable()
+    {
+        return $this->morphTo();
+    }
     public function customers()
     {
         return $this->hasMany(Customer::class);

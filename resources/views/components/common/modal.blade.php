@@ -10,6 +10,7 @@
     'saveLabel' => __('common.save'),
     'saveHref' => null,
     'saveWireClick' => null,
+    'footerButtons' => true,
 ])
 <x-button wire:click='{{ $buttomWireClick }}' size="{{ $size }}" label="{{ $buttonLabel }}"
     icon="{{ $buttonIcon }}" x-on:click="$openModal('{{ $name }}')" color="{{ $buttonColor }}" />
@@ -23,9 +24,11 @@
 
 
         <div class="flex gap-x-4">
-            <x-button flat label="{{ $cancelLabel }}" x-on:click="close" />
+            @if ($footerButtons)
+                <x-button flat label="{{ $cancelLabel }}" x-on:click="close" />
 
-            <x-button primary label="{{ $saveLabel }}" wire:click="{{ $saveWireClick }}" />
+                <x-button primary label="{{ $saveLabel }}" wire:click="{{ $saveWireClick }}" />
+            @endif
         </div>
     </x-slot>
 </x-modal-card>

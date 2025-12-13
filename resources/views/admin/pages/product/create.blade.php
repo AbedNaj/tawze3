@@ -14,9 +14,10 @@
 
             <x-input name="price" type="number" :label="__('product.price')" />
 
-            <x-input name="quantity" type="number" :label="__('product.quantity')" />
+
 
             <x-input name="min_stock_alert" type="number" :label="__('product.min_stock_alert')" />
+
 
             <x-input name="qr_code" type="hidden" :value="request()->input('qr_code') ?? ''" />
 

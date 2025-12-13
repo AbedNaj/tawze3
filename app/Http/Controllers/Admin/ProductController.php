@@ -7,6 +7,7 @@ use App\Models\Tenants\Product;
 use App\Http\Requests\Admin\Product\StoreProductRequest;
 use App\Http\Requests\Admin\Product\UpdateProductRequest;
 use App\Models\Tenants\ProductType;
+use App\Models\Tenants\WareHouse;
 use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
@@ -24,10 +25,11 @@ class ProductController extends Controller
     {
 
         $productTypes = ProductType::select('name', 'id')->get();
-
+        $wareHouses = WareHouse::select('name', 'id')->get();
 
         return view('admin.pages.product.create', [
-            'productTypes' => $productTypes
+            'productTypes' => $productTypes,
+            'wareHouses' => $wareHouses
         ]);
     }
 
@@ -38,23 +40,19 @@ class ProductController extends Controller
     {
         $validated = $request->validated();
 
+
         $product =   Product::create(
             [
                 'name' => $validated['name'],
                 'price' => $validated['price'],
                 'qr_code' => $validated['qr_code'] ?? null,
                 'product_type_id' => $validated['product_type_id']
-
             ]
-
         );
 
-        $product->inventory()->create([
-            'quantity' => $validated['quantity'],
-            'min_stock_alert' => $validated['min_stock_alert']
-        ]);
 
-        return redirect()->route('admin.products.index');
+
+        return redirect()->route('admin.products.show', [$product->id]);
     }
 
     /**
@@ -62,16 +60,12 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        $product->load([
-            'productType:id,name',
-            'inventory:id,product_id,quantity'
-        ]);
 
-        $productTypes = ProductType::select('name', 'id')->get();
+
+
 
         return view('admin.pages.product.show', [
             'product' => $product,
-            'productTypes' => $productTypes
         ]);
     }
 
@@ -88,6 +82,7 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, Product $product)
     {
+
 
         $validated = $request->validated();
 

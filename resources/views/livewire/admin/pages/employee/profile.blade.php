@@ -59,7 +59,7 @@
                 <x-admin.navbar-button tabName="info" :icon="view('components.icons.employees')" :label="__('employee.info')" />
                 <x-admin.navbar-button wireClick="fetchSales" tabName="sales" :icon="view('components.icons.sales')" :label="__('employee.sales')" />
                 <x-admin.navbar-button wireClick="fetchInventories" tabName="inventories" :icon="view('components.icons.inventory')"
-                    :label="__('employee.sales')" />
+                    :label="__('employee.inventories')" />
 
             </div>
         </div>
