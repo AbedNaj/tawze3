@@ -4,22 +4,23 @@
 <x-modal-card :title="__('sale.sale.confirm_sale')" name="confirmModal">
     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
 
-
-        <x-select :label="__('sale.sale.payment_method')" wire:model.live='paymentMethod' :placeholder="__('sale.sale.payment_method_placeholder')" :options="$paymentMethods"
+        <x-select :label="__('sale.sale.payment_method')" wire:model.live="paymentMethod" :placeholder="__('sale.sale.payment_method_placeholder')" :options="$paymentMethods"
             option-label="name" option-value="id" />
-        <x-input :label="__('sale.sale.paid_amount')" wire:model.live='paidAmount' :placeholder="__('sale.sale.paid_amount_placeholder')"
-            description="{{ __('sale.sale.sale_amount') . ' : ' . $total }}" />
 
+        <div class="sm:col-span-2">
+            <x-checkbox wire:model.live="withDebt" :label="__('sale.sale.pay_with_debt')" />
+        </div>
+
+        @if ($withDebt)
+            <x-input :label="__('sale.sale.paid_amount')" wire:model.live="paidAmount" :placeholder="__('sale.sale.paid_amount_placeholder')"
+                description="{{ __('sale.sale.sale_amount') . ' : ' . $total }}" />
+        @endif
 
     </div>
 
     <x-slot name="footer" class="flex justify-between gap-x-4">
+        <x-button flat :label="__('common.cancel')" x-on:click="close" />
 
-
-        <div class="flex gap-x-4">
-            <x-button flat :label="__('common.cancel')" x-on:click="close" />
-
-            <x-button @click="confirmSale = true" wire:click='saleConfirm' primary :label="__('sale.sale.invoice_create')" />
-        </div>
+        <x-button wire:click="saleConfirm" primary :label="__('sale.sale.invoice_create')" />
     </x-slot>
 </x-modal-card>

@@ -10,6 +10,7 @@ use App\Http\Requests\Admin\Sale\StoreSaleRequest;
 use App\Http\Requests\Admin\Sale\UpdateSaleRequest;
 use App\Models\Tenants\Employee;
 use App\Models\Tenants\ProductType;
+use App\Services\Sale\SaleService;
 use Illuminate\Support\Facades\Auth;
 
 class SaleController extends Controller
@@ -106,5 +107,11 @@ class SaleController extends Controller
     public function destroy(Sale $sale)
     {
         //
+    }
+
+    public function printInvoice(Sale $sale, SaleService $saleService)
+    {
+
+        return  $saleService->printInvoice($sale);
     }
 }

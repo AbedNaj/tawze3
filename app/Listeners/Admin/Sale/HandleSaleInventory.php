@@ -3,10 +3,7 @@
 namespace App\Listeners\Admin\Sale;
 
 use App\Events\Admin\Sale\SaleCreated;
-use App\Models\Tenants\EmployeeInventory;
 use App\Models\Tenants\Inventory;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 
 class HandleSaleInventory
 {

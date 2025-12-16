@@ -52,7 +52,7 @@
 
             </x-admin.side-bar-dropdown>
 
-            <x-admin.side-bar-dropdown :label="__('sidebar.admin.inventory')" :is_active="request()->routeIs('admin.inventory*') || request()->routeIs('admin.employeeInventory*')" :icon="view('components.icons.inventory')">
+            <x-admin.side-bar-dropdown :label="__('sidebar.admin.inventory')" :is_active="request()->routeIs('admin.inventory*')" :icon="view('components.icons.inventory')">
                 <x-admin.side-bar-sub-link href="{{ route('admin.inventory.index') }}" :is_active="request()->routeIs('admin.inventory.index*') || request()->routeIs('admin.inventory.show*')">
                     {{ __('sidebar.admin.inventory_list') }}
                 </x-admin.side-bar-sub-link>

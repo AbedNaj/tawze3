@@ -126,6 +126,7 @@ return [
         'selected_warehouse' => 'المستودع المحدد',
         'remove_products_for_change_warehouse' =>
         'لتغيير المستودع، يجب إزالة جميع المنتجات من الفاتورة أولًا.',
+        'pay_with_debt' => 'دفع جزئي (دين)',
 
     ]
 

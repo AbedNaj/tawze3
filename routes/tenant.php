@@ -18,7 +18,7 @@ use App\Http\Middleware\RedirectIfNotAdmin;
 use Illuminate\Support\Facades\Route;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
 use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
-
+use Barryvdh\DomPDF\Facade\Pdf;
 /*
 |--------------------------------------------------------------------------
 | Tenant Routes
@@ -117,6 +117,8 @@ Route::middleware([
 
 
             // sales 
+            Route::get('sales/{sale}/print', [SaleController::class, 'printInvoice'])
+                ->name('sales.print');
 
             Route::resource('sales', SaleController::class)->names('sales')->except(['edit']);
 

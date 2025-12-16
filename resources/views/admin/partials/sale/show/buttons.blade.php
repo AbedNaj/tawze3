@@ -17,10 +17,9 @@
                               </x-common.modal>
 
 
-                              <button
-                                  class="px-6 py-3 bg-blue-600 hover:cursor-pointer text-white rounded-lg hover:bg-blue-700 transition-colors font-medium">
-                                  <i class="fas fa-print mr-2"></i>
-                                  {{ __('sale.sale.print_invoice') }}
-                              </button>
+                              <x-button lg icon="printer" target="_blank" :label="__('sale.sale.print_invoice')" :href="route('admin.sales.print', 6)">
+
+
+                              </x-button>
                           </div>
                       @endif
